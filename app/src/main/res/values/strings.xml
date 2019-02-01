@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Trip</string>
+    <string name="title_activity_trip_list">TripListActivity</string>
+</resources>

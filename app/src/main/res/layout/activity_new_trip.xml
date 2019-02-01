@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newTripLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewTripActivity">
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/newTrip_textInputLayout_destination"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/newTrip_autoCompleteTextView_destination"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:hint="Destination"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonClearText1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_action_clear_text"
+        app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_destination"
+        app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_destination"
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_destination" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/newTrip_textInputLayout_depart"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTrip_textInputLayout_destination">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/newTrip_textInputEditText_departureDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="Depart"
+            android:textColor="@color/colorPrimaryDark" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonClearText2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_action_clear_text"
+        app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_depart"
+        app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_depart"
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_depart" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/newTrip_textInputLayout_return"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTrip_textInputLayout_depart">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/newTrip_textInputEditText_returnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="Return"
+            android:textColor="@color/colorPrimaryDark" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/buttonClearText3"
+        android:layout_width="23dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_action_clear_text"
+        app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_return"
+        app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_return"
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_return" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
