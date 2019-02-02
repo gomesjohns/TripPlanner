@@ -60,10 +60,6 @@ public class TimeRemainingCalculation
     {
         return tripDuration;
     }
-    private int getDaysRemainingNum()
-    {
-        return daysRemaining;
-    }
     public String getTripDayYearText()
     {
         if (daysRemaining == 1 || tripDuration==1) {
@@ -91,7 +87,7 @@ public class TimeRemainingCalculation
     {
         //Insert day text dynamically based on number of days
         timeCalculation(pos);
-        return getTripDurationText()+" "+getTripDayYearText()+getDaysRemainingText();
+        return getTripDurationText()+" "+getTripDayYearText()+" trip"+getDaysRemainingText();
     }
 
 }

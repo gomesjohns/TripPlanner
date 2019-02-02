@@ -5,6 +5,6 @@
     <item
         android:id="@+id/menuAddTrip"
         android:icon="@drawable/ic_action_save_trip"
-        android:title="saveTrip"
+        android:title="save"
         app:showAsAction="always" />
 </menu>

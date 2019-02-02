@@ -103,7 +103,7 @@ public class TripDetailsActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
     //Private methods
     //----------------------------------------------------------------------------------------------
-    //Init views
+    //Initialize views
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         tripDetails_imageView_tripImage = findViewById(R.id.tripDetails_tripImage);
@@ -154,7 +154,13 @@ public class TripDetailsActivity extends AppCompatActivity {
         tripDetails_fabHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TripDetailsActivity.this, "Hotel Add Activity", Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(TripDetailsActivity.this, NewHotelActivity.class);
+                myIntent.putExtra("tripName", tripDetails_tripName);
+                myIntent.putExtra("tripDateRange", tripDetails_tripDateRange);
+                myIntent.putExtra("tripDurationTimeRemaining", tripDetails_tripDurationTimeRemaining);
+                myIntent.putExtra("tripId", tripDetails_tripId);
+                myIntent.putExtra("tripImage", tripDetails_tripImage);
+                TripDetailsActivity.this.startActivity(myIntent);
             }
         });
     }

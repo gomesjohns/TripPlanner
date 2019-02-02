@@ -13,23 +13,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ChecklistActivity">
-
-        </activity>
-        <activity android:name=".NewTripActivity">
-
-        </activity>
-        <activity android:name=".TripListActivity">
+        <activity android:name=".NewHotelActivity"></activity>
+        <activity
+            android:name=".ChecklistActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".NewTripActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".TripListActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TripDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".NewFlightActivity">
-
-        </activity>
+        <activity
+            android:name=".TripDetailsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".NewFlightActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

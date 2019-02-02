@@ -83,7 +83,7 @@ public class NewTripActivity extends AppCompatActivity {
     //Action bar menu for adding new trip
     @Override //Create save trip menu from XML
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.trip_save_menu, menu);
+        getMenuInflater().inflate(R.menu.save_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

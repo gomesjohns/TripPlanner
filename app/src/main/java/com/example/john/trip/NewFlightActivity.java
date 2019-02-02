@@ -53,10 +53,13 @@ public class NewFlightActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    //----------------------------------------------------------------------------------------------
+    //Override methods
+    //----------------------------------------------------------------------------------------------
     //Action bar menu
     @Override //Create save trip menu from XML
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.trip_save_menu, menu);
+        getMenuInflater().inflate(R.menu.save_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -70,14 +73,17 @@ public class NewFlightActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
         if (menuItem.getTitle() != null) {
-            if (menuItem.getTitle().equals("saveTrip")) {
+            if (menuItem.getTitle().equals("save")) {
                 addFlight();
             }
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
-    //Init views
+    //----------------------------------------------------------------------------------------------
+    //Private methods
+    //----------------------------------------------------------------------------------------------
+    //Initialize views
     private void initViews() {
         airline = findViewById(R.id.addFlight_textInputAutocomplete_airline);
         flightNumber = findViewById(R.id.addFlight_textInputEditText_flightNumber);
@@ -105,6 +111,7 @@ public class NewFlightActivity extends AppCompatActivity {
         datePickerHelper = new DatePickerHelper();
     }
 
+    //Listeners
     private void initListeners() {
         //Date pickers
         departureDate.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +141,7 @@ public class NewFlightActivity extends AppCompatActivity {
         });
     }
 
+    //Method to add flight to the database
     private void addFlight()
     {
         String airline_text= airline.getText().toString();
@@ -157,7 +165,8 @@ public class NewFlightActivity extends AppCompatActivity {
 
         String id = databaseReference.push().getKey();
         databaseReference.child(newFlight_tripId).child("Flight").child(id).setValue(flight);
-        Toast.makeText(NewFlightActivity.this, "Flight Added Successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
+                Toast.LENGTH_LONG).show();
         //Start TripDetailsActivity
         Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripName", newFlight_tripName);
