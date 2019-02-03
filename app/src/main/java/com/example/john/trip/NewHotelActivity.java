@@ -28,7 +28,10 @@ public class NewHotelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_hotel);
 
+        //Init views
         initViews();
+        //Init db
+        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -82,8 +85,6 @@ public class NewHotelActivity extends AppCompatActivity {
         checkInTime = findViewById(R.id.addHotel_textInputEditText_checkInTime);
         checkOutDate = findViewById(R.id.addHotel_textInputEditText_checkOutDate);
         checkOutTime = findViewById(R.id.addHotel_textInputEditText_checkOutTime);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
     }
 
     //Method to add hotel to the database

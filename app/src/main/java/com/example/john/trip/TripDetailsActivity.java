@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.john.trip.adapter.FlightListRVAdapter;
 import com.example.john.trip.database.DeleteTrip;
 import com.example.john.trip.model.Flight;
+import com.example.john.trip.model.Hotel;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +40,10 @@ public class TripDetailsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FlightListRVAdapter flightListRVAdapter;
     private RecyclerView recyclerView;
-    ArrayList<Flight> flightArrayList;
+    private ArrayList<Flight> flightArrayList;
+    private ArrayList<Hotel> hotelArrayList;
+    private DatabaseReference databaseReference;
+    private DatabaseReference tripReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class TripDetailsActivity extends AppCompatActivity {
         initViews();
         //Get extras
         getExtras();
+        //Init DB
+        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
+        tripReference = databaseReference.child(tripDetails_tripId);
         //Listeners
         initListeners();
         //Toolbar
@@ -64,6 +71,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         //Retrieve flight data
         retrieveFlightData();
+        retrieveHotelData();
     }
 
     //----------------------------------------------------------------------------------------------
@@ -114,7 +122,6 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.tripDetails_RV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     //Get extras
@@ -167,14 +174,10 @@ public class TripDetailsActivity extends AppCompatActivity {
 
     //Get flight data from database based on trip id
     private void retrieveFlightData() {
-        DatabaseReference databaseReference;
-        DatabaseReference tripReference;
         DatabaseReference flightReference;
         flightArrayList = new ArrayList<>();
 
-        //Get database
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
-        tripReference = databaseReference.child(tripDetails_tripId);
+        //Get database ref
         flightReference = tripReference.child("Flight");
 
         flightReference.addValueEventListener(new ValueEventListener() {
@@ -185,7 +188,34 @@ public class TripDetailsActivity extends AppCompatActivity {
                     Flight flight = dataSnapshot1.getValue(Flight.class);
                     flightArrayList.add(flight);
                 }
-                flightListRVAdapter = new FlightListRVAdapter(TripDetailsActivity.this, flightArrayList);
+                //flightListRVAdapter = new FlightListRVAdapter(TripDetailsActivity.this, flightArrayList);
+                //recyclerView.setAdapter(flightListRVAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+
+        });
+    }
+
+    //Get hotel data from database based on trip id
+    private void retrieveHotelData()
+    {
+        DatabaseReference hotelReference;
+        hotelArrayList = new ArrayList<>();
+
+        //Get database ref
+        hotelReference = tripReference.child("Hotel");
+
+        hotelReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               hotelArrayList.clear();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    Hotel hotel = dataSnapshot1.getValue(Hotel.class);
+                    hotelArrayList.add(hotel);
+                }
+                flightListRVAdapter = new FlightListRVAdapter(TripDetailsActivity.this, flightArrayList, hotelArrayList);
                 recyclerView.setAdapter(flightListRVAdapter);
             }
             @Override

@@ -36,6 +36,7 @@ public class NewFlightActivity extends AppCompatActivity {
 
         //Init views, database, place api, and listeners
         initViews();
+        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
         initHelperClasses();
         initListeners();
 
@@ -101,8 +102,6 @@ public class NewFlightActivity extends AppCompatActivity {
         arrivalTime = findViewById(R.id.addFlight_textInputEditText_arrivalTime);
         arrivalTerminal = findViewById(R.id.addFlight_textInputEditText_arrivalTerminal);
         arrivalGate = findViewById(R.id.addFlight_textInputEditText_arrivalGate);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
     }
 
     //Init all the helper classes

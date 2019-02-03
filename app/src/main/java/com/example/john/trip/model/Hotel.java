@@ -4,6 +4,8 @@ public class Hotel {
     private String hotelName, hotelLocation, checkInDate, checkInTime, checkOutDate,
     checkOutTime;
 
+    public Hotel()
+    {}
     public Hotel(String hotelName, String hotelLocation, String checkInDate,
                  String checkInTime, String checkOutDate, String checkOutTime) {
         this.hotelName = hotelName;
