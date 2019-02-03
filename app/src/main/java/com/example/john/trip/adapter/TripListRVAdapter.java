@@ -73,6 +73,7 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
                 //Start trip details activity, send trip data
                 Intent myIntent = new Intent(context, TripDetailsActivity.class);
                 getTripName(position);
+                myIntent.putExtra("tripObj", tripList_trips.get(position));
                 myIntent.putExtra("tripName", tripName[0]);//trip title
                 myIntent.putExtra("tripDateRange", String.valueOf(dateRangeText(position))); //trip date range
                 myIntent.putExtra("tripDurationTimeRemaining", String.valueOf(String.valueOf(timeRemainingCalculation.tripDurationTimeRemainingText(position)))); //trip duration

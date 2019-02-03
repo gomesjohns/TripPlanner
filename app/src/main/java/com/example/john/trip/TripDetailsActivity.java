@@ -16,10 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.john.trip.adapter.FlightListRVAdapter;
+import com.example.john.trip.adapter.TripDetailsRVAdapter;
 import com.example.john.trip.database.DeleteTrip;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.Hotel;
+import com.example.john.trip.model.Trip;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,12 +39,13 @@ public class TripDetailsActivity extends AppCompatActivity {
     private FloatingActionButton tripDetails_fabHotel, tripDetails_fabFlight;
     private ImageView tripDetails_imageView_tripImage;
     private Toolbar toolbar;
-    private FlightListRVAdapter flightListRVAdapter;
+    private TripDetailsRVAdapter tripDetailsRVAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Flight> flightArrayList;
     private ArrayList<Hotel> hotelArrayList;
     private DatabaseReference databaseReference;
     private DatabaseReference tripReference;
+    private Trip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         //Retrieve flight data
         retrieveFlightData();
         retrieveHotelData();
+
     }
 
     //----------------------------------------------------------------------------------------------
@@ -119,7 +122,6 @@ public class TripDetailsActivity extends AppCompatActivity {
         tripDetails_fabHotel = findViewById(R.id.tripDetails_fabHotel);
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarDateRange = findViewById(R.id.toolbar_date_range);
-
         recyclerView = findViewById(R.id.tripDetails_RV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -135,11 +137,14 @@ public class TripDetailsActivity extends AppCompatActivity {
             tripDetails_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
             tripDetails_tripId = extras.getString("tripId");
             tripDetails_tripImage = extras.getString("tripImage");
+
+            myTrip = extras.getParcelable("tripObj");
             //Set
             toolbarTitle.setText(tripDetails_tripName);
             toolbarDateRange.setText(tripDetails_tripDateRange + " (" + tripDetails_tripDurationTimeRemaining + ")");
             //Set trip image
             Picasso.get().load(tripDetails_tripImage).into(tripDetails_imageView_tripImage);
+
         }
     }
 
@@ -186,10 +191,9 @@ public class TripDetailsActivity extends AppCompatActivity {
                 flightArrayList.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Flight flight = dataSnapshot1.getValue(Flight.class);
-                    flightArrayList.add(flight);
+                   // flightArrayList.add(flight);
+                    myTrip.setFlightList(flight);
                 }
-                //flightListRVAdapter = new FlightListRVAdapter(TripDetailsActivity.this, flightArrayList);
-                //recyclerView.setAdapter(flightListRVAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -213,10 +217,11 @@ public class TripDetailsActivity extends AppCompatActivity {
                hotelArrayList.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Hotel hotel = dataSnapshot1.getValue(Hotel.class);
-                    hotelArrayList.add(hotel);
+                    //hotelArrayList.add(hotel);
+                    myTrip.setHotelArrayList(hotel);
                 }
-                flightListRVAdapter = new FlightListRVAdapter(TripDetailsActivity.this, flightArrayList, hotelArrayList);
-                recyclerView.setAdapter(flightListRVAdapter);
+                tripDetailsRVAdapter = new TripDetailsRVAdapter(TripDetailsActivity.this, myTrip);
+                recyclerView.setAdapter(tripDetailsRVAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

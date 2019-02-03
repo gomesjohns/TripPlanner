@@ -1,7 +1,9 @@
 package com.example.john.trip.model;
 
-public class Flight
-{
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Flight implements Parcelable {
     private String airline;
     private String flightNumber;
     private String seats;
@@ -96,5 +98,57 @@ public class Flight
     public String getArrivalGate() {
         return arrivalGate;
     }
-}
 
+    protected Flight(Parcel in) {
+        airline = in.readString();
+        flightNumber = in.readString();
+        seats = in.readString();
+        confirmationNum = in.readString();
+        departureCityAirport = in.readString();
+        departureDate = in.readString();
+        departureTime = in.readString();
+        departureTerminal = in.readString();
+        departureGate = in.readString();
+        arrivalCityAirport = in.readString();
+        arrivalDate = in.readString();
+        arrivalTime = in.readString();
+        arrivalTerminal = in.readString();
+        arrivalGate = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(airline);
+        dest.writeString(flightNumber);
+        dest.writeString(seats);
+        dest.writeString(confirmationNum);
+        dest.writeString(departureCityAirport);
+        dest.writeString(departureDate);
+        dest.writeString(departureTime);
+        dest.writeString(departureTerminal);
+        dest.writeString(departureGate);
+        dest.writeString(arrivalCityAirport);
+        dest.writeString(arrivalDate);
+        dest.writeString(arrivalTime);
+        dest.writeString(arrivalTerminal);
+        dest.writeString(arrivalGate);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Flight> CREATOR = new Parcelable.Creator<Flight>() {
+        @Override
+        public Flight createFromParcel(Parcel in) {
+            return new Flight(in);
+        }
+
+        @Override
+        public Flight[] newArray(int size) {
+            return new Flight[size];
+        }
+    };
+}

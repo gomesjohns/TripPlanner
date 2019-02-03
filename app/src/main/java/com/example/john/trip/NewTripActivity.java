@@ -90,7 +90,7 @@ public class NewTripActivity extends AppCompatActivity {
     @Override //Save trip action bar button function on click
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle() != null) {
-            if (item.getTitle().equals("saveTrip")) {
+            if (item.getTitle().equals("save")) {
                 addTrip();
             }
         }

@@ -45,7 +45,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Hotel Name"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,15 +65,15 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="33dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/round_bg"
-        android:padding="2dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_flight_light" />
+        app:srcCompat="@drawable/icon_hotel_light" />
 
     <FrameLayout
         android:id="@+id/frameLayout"

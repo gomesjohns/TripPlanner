@@ -72,7 +72,6 @@ public class TripListActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Trip trip = dataSnapshot1.getValue(Trip.class);
                     tripArrayList.add(trip);
-                    Log.v("Trip", "--------------------------------------"+trip);
                 }
 
                 //Sort the array list for trips

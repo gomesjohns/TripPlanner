@@ -1,8 +1,15 @@
 package com.example.john.trip.model;
 
-public class Hotel {
-    private String hotelName, hotelLocation, checkInDate, checkInTime, checkOutDate,
-    checkOutTime;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Hotel implements Parcelable {
+    private String hotelName;
+    private String hotelLocation;
+    private String checkInDate;
+    private String checkInTime;
+    private String checkOutDate;
+    private String checkOutTime;
 
     public Hotel()
     {}
@@ -63,4 +70,41 @@ public class Hotel {
     public void setCheckOutTime(String checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
+
+    protected Hotel(Parcel in) {
+        hotelName = in.readString();
+        hotelLocation = in.readString();
+        checkInDate = in.readString();
+        checkInTime = in.readString();
+        checkOutDate = in.readString();
+        checkOutTime = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(hotelName);
+        dest.writeString(hotelLocation);
+        dest.writeString(checkInDate);
+        dest.writeString(checkInTime);
+        dest.writeString(checkOutDate);
+        dest.writeString(checkOutTime);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Hotel> CREATOR = new Parcelable.Creator<Hotel>() {
+        @Override
+        public Hotel createFromParcel(Parcel in) {
+            return new Hotel(in);
+        }
+
+        @Override
+        public Hotel[] newArray(int size) {
+            return new Hotel[size];
+        }
+    };
 }
