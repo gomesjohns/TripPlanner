@@ -163,7 +163,7 @@ public class NewFlightActivity extends AppCompatActivity {
                 aDate_text, aTime_text, aTerm_text, aGate_text);
 
         String id = databaseReference.push().getKey();
-        databaseReference.child(newFlight_tripId).child("Flight").child(id).setValue(flight);
+        databaseReference.child(newFlight_tripId).child("flight"+id).setValue(flight);
         Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
                 Toast.LENGTH_LONG).show();
         //Start TripDetailsActivity

@@ -10,8 +10,7 @@ public class Trip implements Parcelable {
     String tripName;
     String startDate;
     String endDate;
-    ArrayList<Flight> flightList;
-    ArrayList<Hotel> hotelArrayList;
+
 
     public Trip() {
     }
@@ -36,54 +35,11 @@ public class Trip implements Parcelable {
         return endDate;
     }
 
-    public void setFlightList(Flight flight) {
-        if(this.flightList == null)
-        {
-            flightList = new ArrayList<>();
-            this.flightList.add(flight);
-        }
-        else {
-            this.flightList.add(flight);
-        }
-
-    }
-
-    public void setHotelArrayList(Hotel hotel) {
-
-        if(this.hotelArrayList == null)
-        {
-            hotelArrayList = new ArrayList<>();
-            this.hotelArrayList.add(hotel);
-        }else {
-            this.hotelArrayList.add(hotel);
-        }
-    }
-
-    public ArrayList<Flight> getFlightList() {
-        return flightList;
-    }
-
-    public ArrayList<Hotel> getHotelArrayList() {
-        return hotelArrayList;
-    }
-
     protected Trip(Parcel in) {
         tripId = in.readString();
         tripName = in.readString();
         startDate = in.readString();
         endDate = in.readString();
-        if (in.readByte() == 0x01) {
-            flightList = new ArrayList<Flight>();
-            in.readList(flightList, Flight.class.getClassLoader());
-        } else {
-            flightList = null;
-        }
-        if (in.readByte() == 0x01) {
-            hotelArrayList = new ArrayList<Hotel>();
-            in.readList(hotelArrayList, Hotel.class.getClassLoader());
-        } else {
-            hotelArrayList = null;
-        }
     }
 
     @Override
@@ -97,18 +53,6 @@ public class Trip implements Parcelable {
         dest.writeString(tripName);
         dest.writeString(startDate);
         dest.writeString(endDate);
-        if (flightList == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(flightList);
-        }
-        if (hotelArrayList == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(hotelArrayList);
-        }
     }
 
     @SuppressWarnings("unused")

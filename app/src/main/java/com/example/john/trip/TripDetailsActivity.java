@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class TripDetailsActivity extends AppCompatActivity {
     //Global Vars
@@ -43,6 +49,7 @@ public class TripDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Flight> flightArrayList;
     private ArrayList<Hotel> hotelArrayList;
+    private ArrayList<Object> tempArrayList;
     private DatabaseReference databaseReference;
     private DatabaseReference tripReference;
     private Trip myTrip;
@@ -72,8 +79,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         //Retrieve flight data
-        retrieveFlightData();
-        retrieveHotelData();
+        retrieveFlightHotelData();
 
     }
 
@@ -144,7 +150,6 @@ public class TripDetailsActivity extends AppCompatActivity {
             toolbarDateRange.setText(tripDetails_tripDateRange + " (" + tripDetails_tripDurationTimeRemaining + ")");
             //Set trip image
             Picasso.get().load(tripDetails_tripImage).into(tripDetails_imageView_tripImage);
-
         }
     }
 
@@ -177,50 +182,89 @@ public class TripDetailsActivity extends AppCompatActivity {
         });
     }
 
-    //Get flight data from database based on trip id
-    private void retrieveFlightData() {
-        DatabaseReference flightReference;
-        flightArrayList = new ArrayList<>();
-
-        //Get database ref
-        flightReference = tripReference.child("Flight");
-
-        flightReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                flightArrayList.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Flight flight = dataSnapshot1.getValue(Flight.class);
-                   // flightArrayList.add(flight);
-                    myTrip.setFlightList(flight);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-
-        });
-    }
-
     //Get hotel data from database based on trip id
-    private void retrieveHotelData()
+    private void retrieveFlightHotelData()
     {
-        DatabaseReference hotelReference;
-        hotelArrayList = new ArrayList<>();
+        tempArrayList = new ArrayList<>();
 
         //Get database ref
-        hotelReference = tripReference.child("Hotel");
-
-        hotelReference.addValueEventListener(new ValueEventListener() {
+        tripReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               hotelArrayList.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Hotel hotel = dataSnapshot1.getValue(Hotel.class);
-                    //hotelArrayList.add(hotel);
-                    myTrip.setHotelArrayList(hotel);
+                tempArrayList.clear();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
+                {
+
+                    if(dataSnapshot1.getKey().contains("flight"))
+                    {
+                        Flight flight = dataSnapshot1.getValue(Flight.class);
+                        tempArrayList.add(flight);
+                        //myTrip.setArrayList(flight);
+                    }
+                    else if(dataSnapshot1.getKey().contains("hotel")) {
+                        Hotel hotel = dataSnapshot1.getValue(Hotel.class);
+                        tempArrayList.add(hotel);
+                        //myTrip.setArrayList(hotel);
+                    }
+
+                    //Comparator
+                    Collections.sort(tempArrayList, new Comparator<Object>() {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                        @Override
+                        public int compare(Object o1, Object o2) {
+                            //If FLIGHT and FLIGHT
+                            if(o1 instanceof Flight && o2 instanceof Flight)
+                            {
+                                String s1= ((Flight) o1).getDepartureDate();
+                                String s2= ((Flight) o2).getDepartureDate();
+                                try {
+                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            //If FLIGHT and HOTEL
+                            if(o1 instanceof Flight && o2 instanceof Hotel)
+                            {
+                                String s1= ((Flight) o1).getDepartureDate();
+                                String s2= ((Hotel) o2).getCheckInDate();
+                                try {
+                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            //If HOTEL and HOTEL
+                            if(o1 instanceof Hotel && o2 instanceof Hotel)
+                            {
+                                String s1= ((Hotel) o1).getCheckInDate();
+                                String s2= ((Hotel) o2).getCheckInDate();
+                                try {
+                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            //If HOTEL and FLIGHT
+                            if(o1 instanceof Hotel && o2 instanceof Flight)
+                            {
+                                String s1= ((Hotel) o1).getCheckInDate();
+                                String s2= ((Flight) o2).getDepartureDate();
+                                try {
+                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                            return 0;
+                        }
+                    });
                 }
-                tripDetailsRVAdapter = new TripDetailsRVAdapter(TripDetailsActivity.this, myTrip);
+                tripDetailsRVAdapter = new TripDetailsRVAdapter(TripDetailsActivity.this, tempArrayList);
                 recyclerView.setAdapter(tripDetailsRVAdapter);
             }
             @Override

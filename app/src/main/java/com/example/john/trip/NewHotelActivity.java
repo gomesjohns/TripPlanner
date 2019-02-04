@@ -101,7 +101,7 @@ public class NewHotelActivity extends AppCompatActivity {
         , timeCheckOut);
 
         String id = databaseReference.push().getKey();
-        databaseReference.child(newHotel_tripId).child("Hotel").child(id).setValue(hotel);
+        databaseReference.child(newHotel_tripId).child("hotel"+id).setValue(hotel);
         Toast.makeText(NewHotelActivity.this, "Hotel Added Successfully",
                 Toast.LENGTH_LONG).show();
 
