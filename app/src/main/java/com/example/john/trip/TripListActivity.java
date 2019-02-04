@@ -76,7 +76,7 @@ public class TripListActivity extends AppCompatActivity {
 
                 //Sort the array list for trips
                 Collections.sort(tripArrayList, new Comparator<Trip>() {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN);
 
                     @Override
                     public int compare(Trip o1, Trip o2) {

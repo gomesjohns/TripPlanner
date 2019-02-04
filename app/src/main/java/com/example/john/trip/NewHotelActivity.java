@@ -18,8 +18,7 @@ public class NewHotelActivity extends AppCompatActivity {
 
     private TextInputEditText hotelLocation, checkInDate, checkInTime, checkOutDate,
     checkOutTime;
-    private String newHotel_tripName, newHotel_tripDateRange, newHotel_tripDurationTimeRemaining,
-    newHotel_tripId, newHotel_tripImage;
+    private String  newHotel_tripDurationTimeRemaining, newHotel_tripImage;
     private AutoCompleteTextView hotelName;
     private DatabaseReference databaseReference;
     private Hotel hotel;
@@ -55,8 +54,6 @@ public class NewHotelActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        myIntent.putExtra("tripDurationTimeRemaining", newHotel_tripDurationTimeRemaining);
-        myIntent.putExtra("tripImage", newHotel_tripImage);
         NewHotelActivity.this.startActivity(myIntent);
         return true;
     }
@@ -92,8 +89,6 @@ public class NewHotelActivity extends AppCompatActivity {
         if (extras != null)
         {
             //Get
-            newHotel_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            newHotel_tripImage = extras.getString("tripImage");
             myTrip = extras.getParcelable("tripObj");
         }
     }
@@ -112,15 +107,13 @@ public class NewHotelActivity extends AppCompatActivity {
         , timeCheckOut);
 
         String id = databaseReference.push().getKey();
-        databaseReference.child(newHotel_tripId).child("hotel"+id).setValue(hotel);
+        databaseReference.child(myTrip.getTripId()).child("hotel"+id).setValue(hotel);
         Toast.makeText(NewHotelActivity.this, "Hotel Added Successfully",
                 Toast.LENGTH_LONG).show();
 
         //Start TripDetailsActivity
         Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        myIntent.putExtra("tripDurationTimeRemaining", newHotel_tripDurationTimeRemaining);
-        myIntent.putExtra("tripImage", newHotel_tripImage);
         NewHotelActivity.this.startActivity(myIntent);
     }
 }

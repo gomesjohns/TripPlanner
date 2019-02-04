@@ -24,18 +24,16 @@ import java.util.List;
 
 public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    Context context;
-    FrameLayout timeline1, timeline2;
-    Trip trip;
-    ArrayList<Object> myArrayList;
-    final int VIEW_TYPE_FLIGHT = 0;
-    final int VIEW_TYPE_HOTEL = 1;
-
+    //Global Vars
+    private Context context;
+    private FrameLayout timeline1, timeline2;
+    private ArrayList<Object> tripDetialsArrayList;
+    private final int VIEW_TYPE_FLIGHT = 0;
+    private final int VIEW_TYPE_HOTEL = 1;
 
     public TripDetailsRVAdapter(Context c, ArrayList<Object> arrayList) {
         context = c;
-        myArrayList = arrayList;
-        //myArrayList = new ArrayList<>();
+        tripDetialsArrayList = arrayList;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -43,19 +41,16 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     //----------------------------------------------------------------------------------------------
     @Override
     public int getItemCount() {
-        return myArrayList.size();
+        return tripDetialsArrayList.size();
     }
+
     @Override
     public int getItemViewType(int pos) {
-        Log.v("VIEW TYPE", "--------------------------------------"+myArrayList.get(pos).getClass().getName());
-        if (myArrayList.get(pos) instanceof Flight) {
-            Log.v("VIEW TYPE", "--------------------------------------"+"FLIGHT");
+        if (tripDetialsArrayList.get(pos) instanceof Flight) {
             return VIEW_TYPE_FLIGHT;
-        } else if (myArrayList.get(pos) instanceof Hotel) {
-            Log.v("VIEW TYPE", "--------------------------------------"+"HOTEL");
+        } else if (tripDetialsArrayList.get(pos) instanceof Hotel) {
             return VIEW_TYPE_HOTEL;
         } else {
-            Log.v("VIEW TYPE", "--------------------------------------"+"NONE");
             return -1;
         }
     }
@@ -74,10 +69,10 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (position == 0) {
             timeline1.setVisibility(View.INVISIBLE);
         }
-        if (position > 0 && position == (myArrayList.size() - 1)) {
+        if (position > 0 && position == (tripDetialsArrayList.size() - 1)) {
             timeline2.setVisibility(View.INVISIBLE);
         }
-        if (myArrayList.size() == 1) {
+        if (tripDetialsArrayList.size() == 1) {
             timeline1.setVisibility(View.INVISIBLE);
             timeline2.setVisibility(View.INVISIBLE);
         }
@@ -85,16 +80,17 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         //Flight
         if (viewHolder instanceof FlightViewHolder) {
             Log.v("TAG", "---------------------------------------------------------------- FLIGHT");
-            Flight flight = (Flight) myArrayList.get(position);
+            Flight flight = (Flight) tripDetialsArrayList.get(position);
             ((FlightViewHolder) viewHolder).populate(flight);
         }
         //Hotel
         if (viewHolder instanceof HotelViewHolder) {
             Log.v("TAG", "---------------------------------------------------------------- HOTEL");
-            Hotel hotel = (Hotel) myArrayList.get(position);
+            Hotel hotel = (Hotel) tripDetialsArrayList.get(position);
             ((HotelViewHolder) viewHolder).populate(hotel);
         }
     }
+
     //----------------------------------------------------------------------------------------------
     //Get views from layout
     //----------------------------------------------------------------------------------------------

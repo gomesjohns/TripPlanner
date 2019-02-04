@@ -1,5 +1,6 @@
 package com.example.john.trip.helper;
 
+import com.example.john.trip.Constants;
 import com.example.john.trip.model.Trip;
 
 import java.text.ParseException;
@@ -29,7 +30,7 @@ public class TimeRemainingCalculation
     {
         String departureFromDB= trips.get(position).getStartDate();//Get start date of trip from database
         String returnFromDB = trips.get(position).getEndDate();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy"); //Format date from database using specified pattern
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DATE_PATTERN); //Format date from database using specified pattern
 
         //Parse departure date, calculate days
         try

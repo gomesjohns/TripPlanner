@@ -6,6 +6,8 @@ import android.support.design.widget.TextInputEditText;
 
 import android.widget.DatePicker;
 
+import com.example.john.trip.Constants;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +52,7 @@ public class DatePickerHelper {
                     calendarDepart.set(year, month, dayOfMonth, 0, 0, 0);
                     Date selectedDate = calendarDepart.getTime();
 
-                    DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy",Locale.ENGLISH);
+                    DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN,Locale.ENGLISH);
                     dateFormatted = dateFormat.format(selectedDate);
 
                     dateValidation(textInput);
@@ -79,7 +81,7 @@ public class DatePickerHelper {
                     calendarReturn.set(year, month, dayOfMonth, 0, 0, 0);
                     Date selectedDate = calendarReturn.getTime();
 
-                    DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy",Locale.ENGLISH);
+                    DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN,Locale.ENGLISH);
                     dateFormatted = dateFormat.format(selectedDate);
 
                     dateValidation(textInput);

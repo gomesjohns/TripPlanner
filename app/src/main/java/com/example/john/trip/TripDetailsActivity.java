@@ -21,6 +21,7 @@ import com.example.john.trip.adapter.TripDetailsRVAdapter;
 import com.example.john.trip.database.DeleteTrip;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.Hotel;
+import com.example.john.trip.model.SelectedTrip;
 import com.example.john.trip.model.Trip;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -39,18 +40,16 @@ import java.util.Comparator;
 
 public class TripDetailsActivity extends AppCompatActivity {
     //Global Vars
-    private String  tripDetails_tripDurationTimeRemaining, tripDetails_tripImage;
     private TextView toolbarTitle, toolbarDateRange;
     private FloatingActionButton tripDetails_fabHotel, tripDetails_fabFlight;
     private ImageView tripDetails_imageView_tripImage;
     private Toolbar toolbar;
     private TripDetailsRVAdapter tripDetailsRVAdapter;
     private RecyclerView recyclerView;
-
     private ArrayList<Object> tempArrayList;
     private DatabaseReference databaseReference;
     private DatabaseReference tripReference;
-    private Trip myTrip;
+    private SelectedTrip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,14 +135,12 @@ public class TripDetailsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             //Get
-            tripDetails_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            tripDetails_tripImage = extras.getString("tripImage");
             myTrip = extras.getParcelable("tripObj");
             //Set
             toolbarTitle.setText(myTrip.getTripName());
-            toolbarDateRange.setText(myTrip.getStartDate()+ " - "+ myTrip.getEndDate()+ " (" + tripDetails_tripDurationTimeRemaining + ")");
+            toolbarDateRange.setText(myTrip.getDateRange()+ " (" + myTrip.getTripDurationTimeRemaining() + ")");
             //Set trip image
-            Picasso.get().load(tripDetails_tripImage).into(tripDetails_imageView_tripImage);
+            Picasso.get().load(myTrip.getTripImage()).into(tripDetails_imageView_tripImage);
         }
     }
 
@@ -154,22 +151,23 @@ public class TripDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(TripDetailsActivity.this, NewFlightActivity.class);
-                myIntent.putExtra("tripObj", myTrip);
-                myIntent.putExtra("tripDurationTimeRemaining", tripDetails_tripDurationTimeRemaining);
-                myIntent.putExtra("tripImage", tripDetails_tripImage);
-                TripDetailsActivity.this.startActivity(myIntent);
+                myIntent(myIntent);
             }
         });
         tripDetails_fabHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(TripDetailsActivity.this, NewHotelActivity.class);
-                myIntent.putExtra("tripObj", myTrip);
-                myIntent.putExtra("tripDurationTimeRemaining", tripDetails_tripDurationTimeRemaining);
-                myIntent.putExtra("tripImage", tripDetails_tripImage);
-                TripDetailsActivity.this.startActivity(myIntent);
+                myIntent(myIntent);
             }
         });
+    }
+
+    private void myIntent(Intent myIntent)
+    {
+        //myIntent.putExtra("tripObj", myTrip);
+        myIntent.putExtra("tripObj", myTrip);
+        TripDetailsActivity.this.startActivity(myIntent);
     }
 
     //Get hotel data from database based on trip id

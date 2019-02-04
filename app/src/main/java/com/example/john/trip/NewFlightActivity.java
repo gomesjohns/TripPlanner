@@ -25,7 +25,6 @@ public class NewFlightActivity extends AppCompatActivity {
     private AutoCompleteTextView airline;
     private CloseKeyboard closeKeyboardHelper;
     private DatePickerHelper datePickerHelper;
-    private String newFlight_tripDurationTimeRemaining, newFlight_tripImage;
     private Flight flight;
     private DatabaseReference databaseReference;
     private Trip myTrip;
@@ -64,8 +63,6 @@ public class NewFlightActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        myIntent.putExtra("tripDurationTimeRemaining", newFlight_tripDurationTimeRemaining);
-        myIntent.putExtra("tripImage", newFlight_tripImage);
         NewFlightActivity.this.startActivity(myIntent);
         return true;
     }
@@ -111,8 +108,6 @@ public class NewFlightActivity extends AppCompatActivity {
         if (extras != null)
         {
             //Get
-            newFlight_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            newFlight_tripImage = extras.getString("tripImage");
             myTrip = extras.getParcelable("tripObj");
         }
     }
@@ -182,8 +177,6 @@ public class NewFlightActivity extends AppCompatActivity {
         //Start TripDetailsActivity
         Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        myIntent.putExtra("tripDurationTimeRemaining", newFlight_tripDurationTimeRemaining);
-        myIntent.putExtra("tripImage", newFlight_tripImage);
         NewFlightActivity.this.startActivity(myIntent);
     }
 

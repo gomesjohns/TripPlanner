@@ -2,6 +2,8 @@ package com.example.john.trip.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +15,13 @@ import android.widget.TextView;
 
 import com.example.john.trip.helper.TimeRemainingCalculation;
 import com.example.john.trip.helper.TripImage;
+import com.example.john.trip.model.SelectedTrip;
 import com.example.john.trip.model.Trip;
 import com.example.john.trip.R;
 import com.example.john.trip.TripDetailsActivity;
 import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -62,10 +67,14 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
         Picasso.get().load(getTripImage(position)).into(viewHolder.tripList_tripImage);
 
         //Set information to text views
-        viewHolder.tripList_tripName.setText(tripList_trips.get(position).getTripName());//trip title
-        viewHolder.tripList_tripLocation.setText(tripList_trips.get(position).getTripLocation());//trip location
-        viewHolder.tripList_tripDateRange.setText(getDateRangeText(position));//trip date range
-        viewHolder.tripList_tripDaysRemaining.setText(String.valueOf(timeRemainingCalculation.tripDurationTimeRemainingText(position)));//trip duration and days remaining
+        final String tripName= tripList_trips.get(position).getTripName();
+        viewHolder.tripList_tripName.setText(tripName);//trip title
+        final String tripLocation= tripList_trips.get(position).getTripLocation();
+        viewHolder.tripList_tripLocation.setText(tripLocation);//trip location
+        final String dateRange = getDateRangeText(position);
+        viewHolder.tripList_tripDateRange.setText(dateRange);//trip date range
+        final String timeCalc= timeRemainingCalculation.tripDurationTimeRemainingText(position);
+        viewHolder.tripList_tripDaysRemaining.setText(timeCalc);//trip duration and days remaining
 
         //On click method of each trip item
         viewHolder.tripList_tripListLayout.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +82,10 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
             public void onClick(View v) {
                 //Start trip details activity, send trip data
                 Intent myIntent = new Intent(context, TripDetailsActivity.class);
-                myIntent.putExtra("tripObj", tripList_trips.get(position));
-                //myIntent.putExtra("tripName", tripName[0]);//trip title
-                //myIntent.putExtra("tripDateRange", String.valueOf(dateRangeText(position))); //trip date range
-                myIntent.putExtra("tripDurationTimeRemaining", String.valueOf(String.valueOf(timeRemainingCalculation.tripDurationTimeRemainingText(position)))); //trip duration
-                //myIntent.putExtra("tripId", tripList_trips.get(position).getTripId()); //trip id
-                myIntent.putExtra("tripImage",getTripImage(position));
+                SelectedTrip selectedTrip = new SelectedTrip(tripList_trips.get(position).getTripId(), tripName, dateRange,
+                        timeCalc, getTripImage(position));
+
+                myIntent.putExtra("tripObj", selectedTrip);
                 context.startActivity(myIntent);
             }
         });
@@ -91,7 +98,9 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
     //Departure date - Return Date
     private String getDateRangeText(int position)
     {
-        return tripList_trips.get(position).getStartDate()+ " - "+ tripList_trips.get(position).getEndDate();
+        String depart= tripList_trips.get(position).getStartDate();
+        String ret=  tripList_trips.get(position).getEndDate();
+        return depart.substring(0, depart.length() -6)+ " - "+ ret.substring(0, depart.length() -6);
     }
 
     //Get trip image
