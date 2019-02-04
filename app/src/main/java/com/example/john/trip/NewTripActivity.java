@@ -33,7 +33,6 @@ public class NewTripActivity extends AppCompatActivity {
     private TextInputEditText departureDate, returnDate;
     private ConstraintLayout newTripLayout;
     private DatabaseReference databaseReference;
-    private String destination, start, end;
     private DatePickerHelper datePickerHelper;
     private CloseKeyboard closeKeyboardHelper;
     private ClearText clearText;
@@ -193,17 +192,17 @@ public class NewTripActivity extends AppCompatActivity {
 
     //Adds trip to database
     private void addTrip() {
-        destination = destinationAutocomplete.getText().toString().trim();
-        start = departureDate.getText().toString().trim();
-        end = returnDate.getText().toString().trim();
+        String tripLocation = destinationAutocomplete.getText().toString().trim();
+        String[] tripName = tripLocation.split(",", 0);
+        String tripDepart = departureDate.getText().toString().trim();
+        String tripReturn = returnDate.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(destination) && !TextUtils.isEmpty(start)
-                && !TextUtils.isEmpty(end)
+        if (!TextUtils.isEmpty(tripLocation) && !TextUtils.isEmpty(tripDepart) && !TextUtils.isEmpty(tripReturn)
                 && returnDate.getError() == null && departureDate.getError() == null) {
             String id = databaseReference.push().getKey();
-            Trip trip = new Trip(id, destination, start, end);
+            Trip trip = new Trip(id, tripName[0], tripLocation, tripDepart, tripReturn);
             databaseReference.child(id).setValue(trip);
-            Toast.makeText(NewTripActivity.this, "Trip Successfully Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewTripActivity.this, "Trip Added Successfully", Toast.LENGTH_LONG).show();
             startTripListActivity();
         } else {
             Snackbar.make(newTripLayout, "Please Enter All Information", Snackbar.LENGTH_SHORT).show();

@@ -39,16 +39,14 @@ import java.util.Comparator;
 
 public class TripDetailsActivity extends AppCompatActivity {
     //Global Vars
-    private String tripDetails_tripName, tripDetails_tripDateRange, tripDetails_tripDurationTimeRemaining,
-            tripDetails_tripId, tripDetails_tripImage;
+    private String  tripDetails_tripDurationTimeRemaining, tripDetails_tripImage;
     private TextView toolbarTitle, toolbarDateRange;
     private FloatingActionButton tripDetails_fabHotel, tripDetails_fabFlight;
     private ImageView tripDetails_imageView_tripImage;
     private Toolbar toolbar;
     private TripDetailsRVAdapter tripDetailsRVAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Flight> flightArrayList;
-    private ArrayList<Hotel> hotelArrayList;
+
     private ArrayList<Object> tempArrayList;
     private DatabaseReference databaseReference;
     private DatabaseReference tripReference;
@@ -70,7 +68,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         getExtras();
         //Init DB
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
-        tripReference = databaseReference.child(tripDetails_tripId);
+        tripReference = databaseReference.child(myTrip.getTripId());
         //Listeners
         initListeners();
         //Toolbar
@@ -97,7 +95,7 @@ public class TripDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.deleteTrip) {
-            new DeleteTrip(tripDetails_tripId);
+            new DeleteTrip(myTrip.getTripId());
             Intent myIntent = new Intent(TripDetailsActivity.this, TripListActivity.class);
             TripDetailsActivity.this.startActivity(myIntent);
             Toast.makeText(this, "Trip deleted successfully", Toast.LENGTH_LONG).show();
@@ -138,16 +136,12 @@ public class TripDetailsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             //Get
-            tripDetails_tripName = extras.getString("tripName");
-            tripDetails_tripDateRange = extras.getString("tripDateRange");
             tripDetails_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            tripDetails_tripId = extras.getString("tripId");
             tripDetails_tripImage = extras.getString("tripImage");
-
             myTrip = extras.getParcelable("tripObj");
             //Set
-            toolbarTitle.setText(tripDetails_tripName);
-            toolbarDateRange.setText(tripDetails_tripDateRange + " (" + tripDetails_tripDurationTimeRemaining + ")");
+            toolbarTitle.setText(myTrip.getTripName());
+            toolbarDateRange.setText(myTrip.getStartDate()+ " - "+ myTrip.getEndDate()+ " (" + tripDetails_tripDurationTimeRemaining + ")");
             //Set trip image
             Picasso.get().load(tripDetails_tripImage).into(tripDetails_imageView_tripImage);
         }
@@ -160,10 +154,8 @@ public class TripDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(TripDetailsActivity.this, NewFlightActivity.class);
-                myIntent.putExtra("tripName", tripDetails_tripName);
-                myIntent.putExtra("tripDateRange", tripDetails_tripDateRange);
+                myIntent.putExtra("tripObj", myTrip);
                 myIntent.putExtra("tripDurationTimeRemaining", tripDetails_tripDurationTimeRemaining);
-                myIntent.putExtra("tripId", tripDetails_tripId);
                 myIntent.putExtra("tripImage", tripDetails_tripImage);
                 TripDetailsActivity.this.startActivity(myIntent);
             }
@@ -172,10 +164,8 @@ public class TripDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(TripDetailsActivity.this, NewHotelActivity.class);
-                myIntent.putExtra("tripName", tripDetails_tripName);
-                myIntent.putExtra("tripDateRange", tripDetails_tripDateRange);
+                myIntent.putExtra("tripObj", myTrip);
                 myIntent.putExtra("tripDurationTimeRemaining", tripDetails_tripDurationTimeRemaining);
-                myIntent.putExtra("tripId", tripDetails_tripId);
                 myIntent.putExtra("tripImage", tripDetails_tripImage);
                 TripDetailsActivity.this.startActivity(myIntent);
             }

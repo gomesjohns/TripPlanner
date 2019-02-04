@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.john.trip.helper.CloseKeyboard;
 import com.example.john.trip.helper.DatePickerHelper;
 import com.example.john.trip.model.Flight;
+import com.example.john.trip.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,31 +25,26 @@ public class NewFlightActivity extends AppCompatActivity {
     private AutoCompleteTextView airline;
     private CloseKeyboard closeKeyboardHelper;
     private DatePickerHelper datePickerHelper;
-    private String newFlight_tripId, newFlight_tripDateRange,
-    newFlight_tripDurationTimeRemaining, newFlight_tripName, newFlight_tripImage;
+    private String newFlight_tripDurationTimeRemaining, newFlight_tripImage;
     private Flight flight;
     private DatabaseReference databaseReference;
+    private Trip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_flight);
 
-        //Init views, database, place api, and listeners
+        //Init views
         initViews();
+        //Ger extras
+        getExtras();
+        //Init Db
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
+        //Init helpers
         initHelperClasses();
+        //Init listeners
         initListeners();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            newFlight_tripName = extras.getString("tripName");
-            newFlight_tripDateRange = extras.getString("tripDateRange");
-            newFlight_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            newFlight_tripId = extras.getString("tripId");
-            newFlight_tripImage = extras.getString("tripImage");
-        }
 
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,9 +63,13 @@ public class NewFlightActivity extends AppCompatActivity {
     @Override //Back button
     public boolean onSupportNavigateUp() {
         Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
+        myIntent.putExtra("tripObj", myTrip);
+        myIntent.putExtra("tripDurationTimeRemaining", newFlight_tripDurationTimeRemaining);
+        myIntent.putExtra("tripImage", newFlight_tripImage);
         NewFlightActivity.this.startActivity(myIntent);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
@@ -102,6 +102,19 @@ public class NewFlightActivity extends AppCompatActivity {
         arrivalTime = findViewById(R.id.addFlight_textInputEditText_arrivalTime);
         arrivalTerminal = findViewById(R.id.addFlight_textInputEditText_arrivalTerminal);
         arrivalGate = findViewById(R.id.addFlight_textInputEditText_arrivalGate);
+    }
+
+    //Get extras
+    private void getExtras()
+    {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            //Get
+            newFlight_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
+            newFlight_tripImage = extras.getString("tripImage");
+            myTrip = extras.getParcelable("tripObj");
+        }
     }
 
     //Init all the helper classes
@@ -163,18 +176,15 @@ public class NewFlightActivity extends AppCompatActivity {
                 aDate_text, aTime_text, aTerm_text, aGate_text);
 
         String id = databaseReference.push().getKey();
-        databaseReference.child(newFlight_tripId).child("flight"+id).setValue(flight);
+        databaseReference.child(myTrip.getTripId()).child("flight"+id).setValue(flight);
         Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
                 Toast.LENGTH_LONG).show();
         //Start TripDetailsActivity
         Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
-        myIntent.putExtra("tripName", newFlight_tripName);
-        myIntent.putExtra("tripDateRange", newFlight_tripDateRange);
+        myIntent.putExtra("tripObj", myTrip);
         myIntent.putExtra("tripDurationTimeRemaining", newFlight_tripDurationTimeRemaining);
-        myIntent.putExtra("tripId", newFlight_tripId);
         myIntent.putExtra("tripImage", newFlight_tripImage);
         NewFlightActivity.this.startActivity(myIntent);
-
     }
 
 }

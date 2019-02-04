@@ -22,12 +22,10 @@ import java.util.ArrayList;
 
 public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.ViewHolder>{
 
-    //Variables
+    //Global Variables
     Context context;
     ArrayList<Trip> tripList_trips;
     TripImage tripImageUrl;
-    private String []tripName;
-    private String tripLocation;
     TimeRemainingCalculation timeRemainingCalculation;
 
     //Constructor
@@ -40,6 +38,13 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
     //----------------------------------------------------------------------------------------------
     //Override methods, inflate layout, bind text with layout
     //----------------------------------------------------------------------------------------------
+
+    @Override
+    public int getItemCount()
+    {
+        return tripList_trips.size();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
@@ -53,17 +58,13 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
         //Instantiate Time Remaining Calculation helper class
         timeRemainingCalculation = new TimeRemainingCalculation(tripList_trips);
 
-        //Get trip name
-        getTripName(position);
-
         //Get and set trip image
-        getTripImage();
-        Picasso.get().load(tripImageUrl.getUrl()).into(viewHolder.tripList_tripImage);
+        Picasso.get().load(getTripImage(position)).into(viewHolder.tripList_tripImage);
 
         //Set information to text views
-        viewHolder.tripList_tripName.setText(tripName[0]);//trip title
-        viewHolder.tripList_tripLocation.setText(tripLocation);//trip location
-        viewHolder.tripList_tripDateRange.setText(dateRangeText(position));//trip date range
+        viewHolder.tripList_tripName.setText(tripList_trips.get(position).getTripName());//trip title
+        viewHolder.tripList_tripLocation.setText(tripList_trips.get(position).getTripLocation());//trip location
+        viewHolder.tripList_tripDateRange.setText(getDateRangeText(position));//trip date range
         viewHolder.tripList_tripDaysRemaining.setText(String.valueOf(timeRemainingCalculation.tripDurationTimeRemainingText(position)));//trip duration and days remaining
 
         //On click method of each trip item
@@ -72,47 +73,32 @@ public class TripListRVAdapter extends RecyclerView.Adapter<TripListRVAdapter.Vi
             public void onClick(View v) {
                 //Start trip details activity, send trip data
                 Intent myIntent = new Intent(context, TripDetailsActivity.class);
-                getTripName(position);
                 myIntent.putExtra("tripObj", tripList_trips.get(position));
-                myIntent.putExtra("tripName", tripName[0]);//trip title
-                myIntent.putExtra("tripDateRange", String.valueOf(dateRangeText(position))); //trip date range
+                //myIntent.putExtra("tripName", tripName[0]);//trip title
+                //myIntent.putExtra("tripDateRange", String.valueOf(dateRangeText(position))); //trip date range
                 myIntent.putExtra("tripDurationTimeRemaining", String.valueOf(String.valueOf(timeRemainingCalculation.tripDurationTimeRemainingText(position)))); //trip duration
-                myIntent.putExtra("tripId", tripList_trips.get(position).getTripId()); //trip id
-                getTripImage();
-                myIntent.putExtra("tripImage",String.valueOf(tripImageUrl.getUrl()));
+                //myIntent.putExtra("tripId", tripList_trips.get(position).getTripId()); //trip id
+                myIntent.putExtra("tripImage",getTripImage(position));
                 context.startActivity(myIntent);
             }
         });
     }
 
-    @Override
-    public int getItemCount()
-    {
-        return tripList_trips.size();
-    }
 
     //----------------------------------------------------------------------------------------------
     //Private methods- joins dep and ret date, gets trip name form db, gets image based on trip name
     //----------------------------------------------------------------------------------------------
     //Departure date - Return Date
-    private String dateRangeText(int position)
+    private String getDateRangeText(int position)
     {
         return tripList_trips.get(position).getStartDate()+ " - "+ tripList_trips.get(position).getEndDate();
     }
 
-    //Get trip name from trip location in database
-    private void getTripName(int pos)
-    {
-        //Format trip name data from location info in database
-        tripLocation= tripList_trips.get(pos).getTripName();
-        tripName= tripLocation.split(",",0);
-    }
-
     //Get trip image
-    private void getTripImage()
+    private String getTripImage(int pos)
     {
         //Trip image placement from trip name
-        tripImageUrl = new TripImage(tripName[0]);
+        return new TripImage(tripList_trips.get(pos).getTripName()).getUrl();
     }
 
     //----------------------------------------------------------------------------------------------

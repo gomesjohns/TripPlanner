@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Trip implements Parcelable {
     String tripId;
     String tripName;
+    String tripLocation;
     String startDate;
     String endDate;
 
@@ -15,9 +16,10 @@ public class Trip implements Parcelable {
     public Trip() {
     }
 
-    public Trip(String tripId, String tripName, String start, String end) {
+    public Trip(String tripId, String tripName,String tripLocation, String start, String end) {
         this.tripId = tripId;
         this.tripName = tripName;
+        this.tripLocation= tripLocation;
         this.startDate = start;
         this.endDate = end;
     }
@@ -34,10 +36,14 @@ public class Trip implements Parcelable {
     public String getEndDate() {
         return endDate;
     }
+    public String getTripLocation() {
+        return tripLocation;
+    }
 
     protected Trip(Parcel in) {
         tripId = in.readString();
         tripName = in.readString();
+        tripLocation = in.readString();
         startDate = in.readString();
         endDate = in.readString();
     }
@@ -51,6 +57,7 @@ public class Trip implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(tripId);
         dest.writeString(tripName);
+        dest.writeString(tripLocation);
         dest.writeString(startDate);
         dest.writeString(endDate);
     }

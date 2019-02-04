@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.example.john.trip.model.Hotel;
+import com.example.john.trip.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +23,7 @@ public class NewHotelActivity extends AppCompatActivity {
     private AutoCompleteTextView hotelName;
     private DatabaseReference databaseReference;
     private Hotel hotel;
+    private Trip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +32,10 @@ public class NewHotelActivity extends AppCompatActivity {
 
         //Init views
         initViews();
+        //Get extras
+        getExtras();
         //Init db
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
-            newHotel_tripName = extras.getString("tripName");
-            newHotel_tripDateRange = extras.getString("tripDateRange");
-            newHotel_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
-            newHotel_tripId = extras.getString("tripId");
-            newHotel_tripImage = extras.getString("tripImage");
-        }
-
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -57,12 +50,17 @@ public class NewHotelActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
 
     }
+
     @Override //Back button
     public boolean onSupportNavigateUp() {
         Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
+        myIntent.putExtra("tripObj", myTrip);
+        myIntent.putExtra("tripDurationTimeRemaining", newHotel_tripDurationTimeRemaining);
+        myIntent.putExtra("tripImage", newHotel_tripImage);
         NewHotelActivity.this.startActivity(myIntent);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
@@ -87,6 +85,19 @@ public class NewHotelActivity extends AppCompatActivity {
         checkOutTime = findViewById(R.id.addHotel_textInputEditText_checkOutTime);
     }
 
+    //Get extras
+    private void getExtras()
+    {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            //Get
+            newHotel_tripDurationTimeRemaining = extras.getString("tripDurationTimeRemaining");
+            newHotel_tripImage = extras.getString("tripImage");
+            myTrip = extras.getParcelable("tripObj");
+        }
+    }
+
     //Method to add hotel to the database
     private void addHotel()
     {
@@ -107,10 +118,8 @@ public class NewHotelActivity extends AppCompatActivity {
 
         //Start TripDetailsActivity
         Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
-        myIntent.putExtra("tripName", newHotel_tripName);
-        myIntent.putExtra("tripDateRange", newHotel_tripDateRange);
+        myIntent.putExtra("tripObj", myTrip);
         myIntent.putExtra("tripDurationTimeRemaining", newHotel_tripDurationTimeRemaining);
-        myIntent.putExtra("tripId", newHotel_tripId);
         myIntent.putExtra("tripImage", newHotel_tripImage);
         NewHotelActivity.this.startActivity(myIntent);
     }
