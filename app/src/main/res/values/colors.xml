@@ -8,5 +8,6 @@
     <color name="horizontalLine">#E4E4E4</color>
     <color name="colorDark">#B2000000</color>
     <color name="colorDarkLighter">#80000000</color>
+    <color name="colorTimelineDateRow">#20262C</color>
     <color name="transparent">#00000000</color>
 </resources>

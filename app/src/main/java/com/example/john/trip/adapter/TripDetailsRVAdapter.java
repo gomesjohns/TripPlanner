@@ -2,11 +2,13 @@ package com.example.john.trip.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -20,14 +22,111 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     //Global Vars
     private Context context;
-    private FrameLayout timeline1, timeline2;
-    private ArrayList<Object> tripDetialsArrayList;
+    private ConstraintLayout dateLayout;
+    private FrameLayout timeline1, timeline2, timelineDate;
+    private ArrayList<Object> tripDetailsArrayList;
     private final int VIEW_TYPE_FLIGHT = 0;
     private final int VIEW_TYPE_HOTEL = 1;
+    private TextView dateRow_textView;
 
     public TripDetailsRVAdapter(Context c, ArrayList<Object> arrayList) {
         context = c;
-        tripDetialsArrayList = arrayList;
+        tripDetailsArrayList = arrayList;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    //Private Methods
+    //----------------------------------------------------------------------------------------------
+    private void drawTimeline(int position) {
+        if (position == 0) {
+            timeline1.setVisibility(View.INVISIBLE);
+            timelineDate.setVisibility(View.INVISIBLE);
+        }
+        if (position > 0 && position == (tripDetailsArrayList.size() - 1)) {
+            timeline2.setVisibility(View.INVISIBLE);
+        }
+        if (tripDetailsArrayList.size() == 1) {
+            timeline1.setVisibility(View.INVISIBLE);
+            timeline2.setVisibility(View.INVISIBLE);
+            timelineDate.setVisibility(View.INVISIBLE);
+        }
+    }
+    
+    private void addDateHeader(int position) {
+        if (position == 0)
+        {
+            dateLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+
+            if(tripDetailsArrayList.get(position) instanceof Flight &&
+                    tripDetailsArrayList.get(position -1) instanceof Flight )
+            {
+                String flightDepDate = ((Flight) tripDetailsArrayList.get(position)).getDepartureDate();
+                String prevFlightDepDate = ((Flight) tripDetailsArrayList.get(position-1)).getDepartureDate();
+
+                if(!flightDepDate.equals(prevFlightDepDate))
+                {
+                    dateLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
+                }
+            }
+            if(tripDetailsArrayList.get(position) instanceof Flight &&
+                    tripDetailsArrayList.get(position -1) instanceof Lodging)
+            {
+                String flightDepDate = ((Flight) tripDetailsArrayList.get(position)).getDepartureDate();
+                String prevLodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position-1)).getCheckInDate();
+
+                if(!flightDepDate.equals(prevLodgeCheckInDate))
+                {
+                    dateLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
+                }
+            }
+            if(tripDetailsArrayList.get(position) instanceof Lodging &&
+                    tripDetailsArrayList.get(position -1) instanceof Lodging)
+            {
+                String lodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckInDate();
+                String prevLodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position-1)).getCheckInDate();
+
+                if(!lodgeCheckInDate.equals(prevLodgeCheckInDate))
+                {
+                    dateLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
+                }
+            }
+            if(tripDetailsArrayList.get(position) instanceof Lodging &&
+                    tripDetailsArrayList.get(position -1) instanceof Flight)
+            {
+                String lodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckInDate();
+                String prevFlightDepDate = ((Flight) tripDetailsArrayList.get(position-1)).getDepartureDate();
+
+                if(!lodgeCheckInDate.equals(prevFlightDepDate))
+                {
+                    dateLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
+                }
+            }
+
+        }
+
+    }
+    
+    private void initDrawableViews(View itemView)
+    {
+        timeline1 = itemView.findViewById(R.id.timeline1);
+        timeline2 = itemView.findViewById(R.id.timeline2);
+        timelineDate = itemView.findViewById(R.id.timelineDate);
+        dateLayout = itemView.findViewById(R.id.myDateLayout);
+        dateRow_textView = itemView.findViewById(R.id.dateRow_textView);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -35,14 +134,14 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     //----------------------------------------------------------------------------------------------
     @Override
     public int getItemCount() {
-        return tripDetialsArrayList.size();
+        return tripDetailsArrayList.size();
     }
 
     @Override
     public int getItemViewType(int pos) {
-        if (tripDetialsArrayList.get(pos) instanceof Flight) {
+        if (tripDetailsArrayList.get(pos) instanceof Flight) {
             return VIEW_TYPE_FLIGHT;
-        } else if (tripDetialsArrayList.get(pos) instanceof Lodging) {
+        } else if (tripDetailsArrayList.get(pos) instanceof Lodging) {
             return VIEW_TYPE_HOTEL;
         } else {
             return -1;
@@ -60,27 +159,19 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        if (position == 0) {
-            timeline1.setVisibility(View.INVISIBLE);
-        }
-        if (position > 0 && position == (tripDetialsArrayList.size() - 1)) {
-            timeline2.setVisibility(View.INVISIBLE);
-        }
-        if (tripDetialsArrayList.size() == 1) {
-            timeline1.setVisibility(View.INVISIBLE);
-            timeline2.setVisibility(View.INVISIBLE);
-        }
+        drawTimeline(position);
+        addDateHeader(position);
 
         //Flight
         if (viewHolder instanceof FlightViewHolder) {
             Log.v("TAG", "---------------------------------------------------------------- FLIGHT");
-            Flight flight = (Flight) tripDetialsArrayList.get(position);
+            Flight flight = (Flight) tripDetailsArrayList.get(position);
             ((FlightViewHolder) viewHolder).populate(flight);
         }
         //Lodging
         if (viewHolder instanceof HotelViewHolder) {
             Log.v("TAG", "---------------------------------------------------------------- HOTEL");
-            Lodging lodging = (Lodging) tripDetialsArrayList.get(position);
+            Lodging lodging = (Lodging) tripDetailsArrayList.get(position);
             ((HotelViewHolder) viewHolder).populate(lodging);
         }
     }
@@ -95,8 +186,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public FlightViewHolder(@NonNull View itemView) {
             super(itemView);
-            timeline1 = itemView.findViewById(R.id.timeline1);
-            timeline2 = itemView.findViewById(R.id.timeline2);
+            initDrawableViews(itemView);
 
             //Flight
             tripDetails_flight_departToArrival = itemView.findViewById(R.id.flightRow_title);
@@ -108,8 +198,14 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void populate(Flight flight) {
+            dateRow_textView.setText(flight.getDepartureDate());
             tripDetails_flight_departToArrival.setText(flight.getDepartureCityAirport()
                     + " to " + flight.getArrivalCityAirport());
+            tripDetails_flight_airline.setText(flight.getAirline()+" ("+flight.getFlightNumber()+")");
+            tripDetails_flight_departureTime.setText(flight.getDepartureTime());
+            tripDetails_flight_departureTermGate.setText(flight.getDepartureTerminal()+" / "+flight.getDepartureGate());
+            tripDetails_flight_arrivalTime.setText(flight.getArrivalTime());
+            tripDetails_flight_arrivalTermGate.setText(flight.getArrivalTerminal()+" / "+flight.getArrivalGate());
         }
     }
 
@@ -118,8 +214,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public HotelViewHolder(@NonNull View itemView) {
             super(itemView);
-            timeline1 = itemView.findViewById(R.id.timeline1);
-            timeline2 = itemView.findViewById(R.id.timeline2);
+            initDrawableViews(itemView);
 
             //Lodging
             tripDetails_hotel_hotelName = itemView.findViewById(R.id.hotelRow_hotelName);
@@ -127,6 +222,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void populate(Lodging lodging) {
+            dateRow_textView.setText(lodging.getCheckInDate());
             tripDetails_hotel_hotelName.setText(lodging.getLodgingName());
         }
     }
