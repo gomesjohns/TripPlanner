@@ -12,15 +12,9 @@ import android.widget.TextView;
 
 import com.example.john.trip.R;
 import com.example.john.trip.model.Flight;
-import com.example.john.trip.model.Hotel;
-import com.example.john.trip.model.Trip;
+import com.example.john.trip.model.Lodging;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -48,7 +42,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int pos) {
         if (tripDetialsArrayList.get(pos) instanceof Flight) {
             return VIEW_TYPE_FLIGHT;
-        } else if (tripDetialsArrayList.get(pos) instanceof Hotel) {
+        } else if (tripDetialsArrayList.get(pos) instanceof Lodging) {
             return VIEW_TYPE_HOTEL;
         } else {
             return -1;
@@ -60,7 +54,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == VIEW_TYPE_FLIGHT) {
             return new FlightViewHolder(LayoutInflater.from(context).inflate(R.layout.flight_row, viewGroup, false));
         } else {
-            return new HotelViewHolder(LayoutInflater.from(context).inflate(R.layout.hotel_row, viewGroup, false));
+            return new HotelViewHolder(LayoutInflater.from(context).inflate(R.layout.lodging_row, viewGroup, false));
         }
     }
 
@@ -83,11 +77,11 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             Flight flight = (Flight) tripDetialsArrayList.get(position);
             ((FlightViewHolder) viewHolder).populate(flight);
         }
-        //Hotel
+        //Lodging
         if (viewHolder instanceof HotelViewHolder) {
             Log.v("TAG", "---------------------------------------------------------------- HOTEL");
-            Hotel hotel = (Hotel) tripDetialsArrayList.get(position);
-            ((HotelViewHolder) viewHolder).populate(hotel);
+            Lodging lodging = (Lodging) tripDetialsArrayList.get(position);
+            ((HotelViewHolder) viewHolder).populate(lodging);
         }
     }
 
@@ -127,13 +121,13 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             timeline1 = itemView.findViewById(R.id.timeline1);
             timeline2 = itemView.findViewById(R.id.timeline2);
 
-            //Hotel
+            //Lodging
             tripDetails_hotel_hotelName = itemView.findViewById(R.id.hotelRow_hotelName);
             tripDetails_hotel_hotelLocation = itemView.findViewById(R.id.hotelRow_hotelLocation);
         }
 
-        public void populate(Hotel hotel) {
-            tripDetails_hotel_hotelName.setText(hotel.getHotelName());
+        public void populate(Lodging lodging) {
+            tripDetails_hotel_hotelName.setText(lodging.getLodgingName());
         }
     }
 

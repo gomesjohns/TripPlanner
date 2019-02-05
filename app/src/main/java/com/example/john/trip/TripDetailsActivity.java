@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +19,8 @@ import android.widget.Toast;
 import com.example.john.trip.adapter.TripDetailsRVAdapter;
 import com.example.john.trip.database.DeleteTrip;
 import com.example.john.trip.model.Flight;
-import com.example.john.trip.model.Hotel;
+import com.example.john.trip.model.Lodging;
 import com.example.john.trip.model.SelectedTrip;
-import com.example.john.trip.model.Trip;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +39,7 @@ import java.util.Comparator;
 public class TripDetailsActivity extends AppCompatActivity {
     //Global Vars
     private TextView toolbarTitle, toolbarDateRange;
-    private FloatingActionButton tripDetails_fabHotel, tripDetails_fabFlight;
+    private FloatingActionButton tripDetails_fabLodging, tripDetails_fabFlight;
     private ImageView tripDetails_imageView_tripImage;
     private Toolbar toolbar;
     private TripDetailsRVAdapter tripDetailsRVAdapter;
@@ -76,7 +74,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         //Retrieve flight data
-        retrieveFlightHotelData();
+        retrieveFlightlodgingData();
 
     }
 
@@ -122,7 +120,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         tripDetails_imageView_tripImage = findViewById(R.id.tripDetails_tripImage);
         tripDetails_fabFlight = findViewById(R.id.tripDetails_fabFlight);
-        tripDetails_fabHotel = findViewById(R.id.tripDetails_fabHotel);
+        tripDetails_fabLodging = findViewById(R.id.tripDetails_fabLodging);
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarDateRange = findViewById(R.id.toolbar_date_range);
         recyclerView = findViewById(R.id.tripDetails_RV);
@@ -154,10 +152,10 @@ public class TripDetailsActivity extends AppCompatActivity {
                 myIntent(myIntent);
             }
         });
-        tripDetails_fabHotel.setOnClickListener(new View.OnClickListener() {
+        tripDetails_fabLodging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(TripDetailsActivity.this, NewHotelActivity.class);
+                Intent myIntent = new Intent(TripDetailsActivity.this, NewLodgingActivity.class);
                 myIntent(myIntent);
             }
         });
@@ -170,8 +168,8 @@ public class TripDetailsActivity extends AppCompatActivity {
         TripDetailsActivity.this.startActivity(myIntent);
     }
 
-    //Get hotel data from database based on trip id
-    private void retrieveFlightHotelData()
+    //Get lodging data from database based on trip id
+    private void retrieveFlightlodgingData()
     {
         tempArrayList = new ArrayList<>();
 
@@ -189,10 +187,10 @@ public class TripDetailsActivity extends AppCompatActivity {
                         tempArrayList.add(flight);
                         //myTrip.setArrayList(flight);
                     }
-                    else if(dataSnapshot1.getKey().contains("hotel")) {
-                        Hotel hotel = dataSnapshot1.getValue(Hotel.class);
-                        tempArrayList.add(hotel);
-                        //myTrip.setArrayList(hotel);
+                    else if(dataSnapshot1.getKey().contains("lodging")) {
+                        Lodging lodging = dataSnapshot1.getValue(Lodging.class);
+                        tempArrayList.add(lodging);
+                        //myTrip.setArrayList(lodging);
                     }
 
                     //Comparator
@@ -211,32 +209,32 @@ public class TripDetailsActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                            //If FLIGHT and HOTEL
-                            if(o1 instanceof Flight && o2 instanceof Hotel)
+                            //If FLIGHT and lodging
+                            if(o1 instanceof Flight && o2 instanceof Lodging)
                             {
                                 String s1= ((Flight) o1).getDepartureDate();
-                                String s2= ((Hotel) o2).getCheckInDate();
+                                String s2= ((Lodging) o2).getCheckInDate();
                                 try {
                                     return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            //If HOTEL and HOTEL
-                            if(o1 instanceof Hotel && o2 instanceof Hotel)
+                            //If lodging and lodging
+                            if(o1 instanceof Lodging && o2 instanceof Lodging)
                             {
-                                String s1= ((Hotel) o1).getCheckInDate();
-                                String s2= ((Hotel) o2).getCheckInDate();
+                                String s1= ((Lodging) o1).getCheckInDate();
+                                String s2= ((Lodging) o2).getCheckInDate();
                                 try {
                                     return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                             }
-                            //If HOTEL and FLIGHT
-                            if(o1 instanceof Hotel && o2 instanceof Flight)
+                            //If lodging and FLIGHT
+                            if(o1 instanceof Lodging && o2 instanceof Flight)
                             {
-                                String s1= ((Hotel) o1).getCheckInDate();
+                                String s1= ((Lodging) o1).getCheckInDate();
                                 String s2= ((Flight) o2).getDepartureDate();
                                 try {
                                     return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));

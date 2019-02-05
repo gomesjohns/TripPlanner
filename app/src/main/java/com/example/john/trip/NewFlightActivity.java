@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.john.trip.helper.CloseKeyboard;
 import com.example.john.trip.helper.DatePickerHelper;
 import com.example.john.trip.model.Flight;
+import com.example.john.trip.model.SelectedTrip;
 import com.example.john.trip.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +28,7 @@ public class NewFlightActivity extends AppCompatActivity {
     private DatePickerHelper datePickerHelper;
     private Flight flight;
     private DatabaseReference databaseReference;
-    private Trip myTrip;
+    private SelectedTrip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

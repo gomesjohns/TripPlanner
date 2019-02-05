@@ -9,25 +9,23 @@ import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.example.john.trip.model.Hotel;
-import com.example.john.trip.model.Trip;
+import com.example.john.trip.model.Lodging;
+import com.example.john.trip.model.SelectedTrip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class NewHotelActivity extends AppCompatActivity {
+public class NewLodgingActivity extends AppCompatActivity {
 
-    private TextInputEditText hotelLocation, checkInDate, checkInTime, checkOutDate,
-    checkOutTime;
-    private String  newHotel_tripDurationTimeRemaining, newHotel_tripImage;
-    private AutoCompleteTextView hotelName;
+    private TextInputEditText lodgingLocation, checkInDate, checkInTime, checkOutDate, checkOutTime;
+    private AutoCompleteTextView lodgingName;
     private DatabaseReference databaseReference;
-    private Hotel hotel;
-    private Trip myTrip;
+    private Lodging lodging;
+    private SelectedTrip myTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_hotel);
+        setContentView(R.layout.activity_new_lodging);
 
         //Init views
         initViews();
@@ -52,9 +50,9 @@ public class NewHotelActivity extends AppCompatActivity {
 
     @Override //Back button
     public boolean onSupportNavigateUp() {
-        Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
+        Intent myIntent = new Intent(NewLodgingActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        NewHotelActivity.this.startActivity(myIntent);
+        NewLodgingActivity.this.startActivity(myIntent);
         return true;
     }
 
@@ -63,7 +61,7 @@ public class NewHotelActivity extends AppCompatActivity {
     {
         if (menuItem.getTitle() != null) {
             if (menuItem.getTitle().equals("save")) {
-                addHotel();
+                addLodging();
             }
         }
         return super.onOptionsItemSelected(menuItem);
@@ -74,12 +72,12 @@ public class NewHotelActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
     //Initialize views
     private void initViews() {
-        hotelName = findViewById(R.id.addHotel_autoCompleteTextView_searchHotel);
-        hotelLocation = findViewById(R.id.addHotel_textInputEditText_location);
-        checkInDate = findViewById(R.id.addHotel_textInputEditText_checkInDate);
-        checkInTime = findViewById(R.id.addHotel_textInputEditText_checkInTime);
-        checkOutDate = findViewById(R.id.addHotel_textInputEditText_checkOutDate);
-        checkOutTime = findViewById(R.id.addHotel_textInputEditText_checkOutTime);
+        lodgingName = findViewById(R.id.addLodging_autoCompleteTextView_searchLodging);
+        lodgingLocation = findViewById(R.id.addLodging_textInputEditText_location);
+        checkInDate = findViewById(R.id.addLodging_textInputEditText_checkInDate);
+        checkInTime = findViewById(R.id.addLodging_textInputEditText_checkInTime);
+        checkOutDate = findViewById(R.id.addLodging_textInputEditText_checkOutDate);
+        checkOutTime = findViewById(R.id.addLodging_textInputEditText_checkOutTime);
     }
 
     //Get extras
@@ -93,27 +91,27 @@ public class NewHotelActivity extends AppCompatActivity {
         }
     }
 
-    //Method to add hotel to the database
-    private void addHotel()
+    //Method to add lodging to the database
+    private void addLodging()
     {
-        String nameHotel = hotelName.getText().toString();
-        String locationHotel = hotelLocation.getText().toString();
+        String nameLodging = lodgingName.getText().toString();
+        String locationLodging = lodgingLocation.getText().toString();
         String dateCheckIn = checkInDate.getText().toString();
         String timeCheckIn = checkInTime.getText().toString();
         String dateCheckOut = checkOutDate.getText().toString();
         String timeCheckOut = checkOutTime.getText().toString();
 
-        hotel = new Hotel(nameHotel, locationHotel, dateCheckIn, timeCheckIn, dateCheckOut
+        lodging = new Lodging(nameLodging, locationLodging, dateCheckIn, timeCheckIn, dateCheckOut
         , timeCheckOut);
 
         String id = databaseReference.push().getKey();
-        databaseReference.child(myTrip.getTripId()).child("hotel"+id).setValue(hotel);
-        Toast.makeText(NewHotelActivity.this, "Hotel Added Successfully",
+        databaseReference.child(myTrip.getTripId()).child("lodging"+id).setValue(lodging);
+        Toast.makeText(NewLodgingActivity.this, "Lodging Added Successfully",
                 Toast.LENGTH_LONG).show();
 
         //Start TripDetailsActivity
-        Intent myIntent = new Intent(NewHotelActivity.this, TripDetailsActivity.class);
+        Intent myIntent = new Intent(NewLodgingActivity.this, TripDetailsActivity.class);
         myIntent.putExtra("tripObj", myTrip);
-        NewHotelActivity.this.startActivity(myIntent);
+        NewLodgingActivity.this.startActivity(myIntent);
     }
 }

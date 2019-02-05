@@ -1,4 +1,38 @@
 <resources>
     <string name="app_name">Trip</string>
     <string name="title_activity_trip_list">TripListActivity</string>
+
+    <string name="fab_flight">Flight</string>
+    <string name="fab_lodging">Lodging</string>
+
+    <string name="newTrip_destination">Destination</string>
+    <string name="newTrip_departDate">Depart</string>
+    <string name="newTrip_returnDate">Return</string>
+
+    <string name="contentDes">Trip Image</string>
+
+    <string name="newFlight_airline">Airline</string>
+    <string name="newFlight_flightNum">Flight Number</string>
+    <string name="newFlight_seats">Seat(s)</string>
+    <string name="newFlight_confirmation">Confirmation #</string>
+    <string name="newFlight_departureDivider">Departure</string>
+    <string name="newFlight_departureCityAirport">Departure City or Airport</string>
+    <string name="newFlight_departureDate">Departure Date</string>
+    <string name="newFlight_departureTime">Departure Time</string>
+    <string name="newFlight_departureTerm">Departure Terminal</string>
+    <string name="newFlight_departureGate">Departure Gate</string>
+    <string name="newFlight_arrivalDivider">Arrival</string>
+    <string name="newFlight_arrivalCityAirport">Arrival City or Airport</string>
+    <string name="newFlight_arrivalDate">Arrival Date</string>
+    <string name="newFlight_arrivalTime">Arrival Time</string>
+    <string name="newFlight_arrivalTerm">Arrival Terminal</string>
+    <string name="newFlight_arrivalGate">Arrival Gate</string>
+
+    <string name="newLodging_lodgingName">Lodging Name</string>
+    <string name="newLodging_lodgingLocation">Location</string>
+    <string name="newLodging_checkInDate">Check-in Date</string>
+    <string name="newLodging_checkInTime">Check-in Time</string>
+    <string name="newLodging_checkOutDate">Check-out Date</string>
+    <string name="newLodging_checkOutTime">Check-out Time</string>
+
 </resources>

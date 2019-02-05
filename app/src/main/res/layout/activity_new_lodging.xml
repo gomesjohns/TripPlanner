@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewHotelActivity">
+    tools:context=".NewLodgingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +22,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/addHotel_autoCompleteTextView_searchHotel"
+                android:id="@+id/addLodging_autoCompleteTextView_searchLodging"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Hotel" />
+                android:hint="@string/newLodging_lodgingName" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -36,10 +36,10 @@
             android:layout_marginEnd="8dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/addHotel_textInputEditText_location"
+                android:id="@+id/addLodging_textInputEditText_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Location" />
+                android:hint="@string/newLodging_lodgingLocation" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
@@ -56,10 +56,10 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addHotel_textInputEditText_checkInDate"
+                    android:id="@+id/addLodging_textInputEditText_checkInDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Check-in Date" />
+                    android:hint="@string/newLodging_checkInDate" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -71,10 +71,10 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addHotel_textInputEditText_checkInTime"
+                    android:id="@+id/addLodging_textInputEditText_checkInTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Check-in Time" />
+                    android:hint="@string/newLodging_checkInTime" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -92,10 +92,10 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addHotel_textInputEditText_checkOutDate"
+                    android:id="@+id/addLodging_textInputEditText_checkOutDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Check-out Date" />
+                    android:hint="@string/newLodging_checkOutDate" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -107,10 +107,10 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addHotel_textInputEditText_checkOutTime"
+                    android:id="@+id/addLodging_textInputEditText_checkOutTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Check-out Time" />
+                    android:hint="@string/newLodging_checkOutTime" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
