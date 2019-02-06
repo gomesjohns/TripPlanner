@@ -5,27 +5,23 @@ import android.widget.AutoCompleteTextView;
 
 public class ClearText
 {
-    HideClearButton hideClearButton;
-
     public ClearText()
     {
-        initHelperClasses();
+
     }
 
-    //Init all the helper classes
-    private void initHelperClasses()
+    public void clear(String tag, TextInputEditText textInputEditTexts)
     {
-        hideClearButton= new HideClearButton();
+        if(tag.equals(textInputEditTexts.getTag()))
+        {
+            textInputEditTexts.setText(null);
+        }
     }
-
-    public void ClearTextEditText(TextInputEditText textInputEditText)
+    public void clear(String tag, AutoCompleteTextView textInputEditTexts)
     {
-        textInputEditText.setText(null);
-        hideClearButton.hideBtn(textInputEditText.getHint().toString().toLowerCase());
-    }
-    public void ClearTextAutoComplete(AutoCompleteTextView autoCompleteTextView)
-    {
-        autoCompleteTextView.setText(null);
-        hideClearButton.hideBtn("destination");
+        if(tag.equals(textInputEditTexts.getTag()))
+        {
+            textInputEditTexts.setText(null);
+        }
     }
 }

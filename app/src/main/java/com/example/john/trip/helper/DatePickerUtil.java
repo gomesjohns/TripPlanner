@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class DatePickerHelper {
+public class DatePickerUtil {
     //Global Vars
     private Calendar calendarDepart, calendarReturn;
     private int year;
@@ -23,11 +23,10 @@ public class DatePickerHelper {
     private int day;
     private DatePickerDialog datePickerDialog;
     public String dateFormatted;
-
     ClearText clearText;
 
     //Constructor
-    public DatePickerHelper() {
+    public DatePickerUtil() {
 
     }
 
@@ -48,7 +47,7 @@ public class DatePickerHelper {
             //Date picker dialog
             datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
                     calendarDepart.set(year, month, dayOfMonth, 0, 0, 0);
                     Date selectedDate = calendarDepart.getTime();
 
@@ -77,7 +76,7 @@ public class DatePickerHelper {
             //Date picker dialog
             datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
                     calendarReturn.set(year, month, dayOfMonth, 0, 0, 0);
                     Date selectedDate = calendarReturn.getTime();
 
@@ -99,8 +98,8 @@ public class DatePickerHelper {
                 textInputEditText.setFocusableInTouchMode(true);
                 textInputEditText.requestFocus();
                 textInputEditText.setError("Invalid date");
-                clearText = new ClearText();
-                clearText.ClearTextEditText(textInputEditText);
+                clearText= new ClearText();
+                clearText.clear(textInputEditText.getTag().toString(), textInputEditText);
             } else {
                 textInputEditText.setText(dateFormatted);
                 textInputEditText.setError(null);

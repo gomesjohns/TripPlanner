@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.john.trip.adapter.PlaceArrayAdapter;
@@ -25,31 +25,33 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import static com.example.john.trip.NewTripActivity.destinationAutocomplete;
+import java.util.ArrayList;
 
 public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
 {
     //Google Place API
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "GOOGLE PLACE ACTIVITY";
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter placeArrayAdapter;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(new LatLng(0, -0), new LatLng(0, -0));
 
-    DatePickerHelper datePickerHelper;
     CloseKeyboard closeKeyboardHelper;
     ClearText clearText;
-    HideClearButton hideClearButton;
-    ShowClearButton showClearButton;
+    ClearButton clearButton;
 
+    final private AutoCompleteTextView autoCompleteTextView;
     private Context context;
     private Activity activity;
+    private ArrayList<Button> buttonArrayList;
 
 
-    public GooglePlaceApi(Context context, Activity activity)
+    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView, ArrayList<Button> buttonArrayList)
     {
         this.context = context;
         this.activity = activity;
+        this.autoCompleteTextView = autoCompleteTextView;
+        this.buttonArrayList = buttonArrayList;
         initHelperClasses();
         initGoogleApi();
     }
@@ -58,12 +60,11 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     {
         closeKeyboardHelper = new CloseKeyboard();
         clearText= new ClearText();
-        hideClearButton  = new HideClearButton();
-        showClearButton = new ShowClearButton();
+        clearButton = new ClearButton(buttonArrayList);
     }
 
     //Initializes google place api
-    public void initGoogleApi()
+    public PlaceArrayAdapter initGoogleApi()
     {
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(AutocompleteFilter.TYPE_FILTER_REGIONS)
@@ -74,41 +75,25 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
                 .addConnectionCallbacks(this)
                 .build();
 
-        destinationAutocomplete.setOnItemClickListener(clickListener);
+        autoCompleteTextView.setOnItemClickListener(clickListener);
         placeArrayAdapter = new PlaceArrayAdapter(context, android.R.layout.simple_expandable_list_item_1, BOUNDS_MOUNTAIN_VIEW, typeFilter);
-        destinationAutocomplete.setAdapter(placeArrayAdapter);
+        autoCompleteTextView.setAdapter(placeArrayAdapter);
+        return placeArrayAdapter;
     }
 
-    private AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener()
+    public AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener()
     {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            closeKeyboardHelper.close(activity, view);
-            showClearButton.showBtn("destination");
             final PlaceArrayAdapter.PlaceAutocomplete item = placeArrayAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(placeDetails);
             //If you want to trim place name do it here
 
-            //Auto complete clear text button listener
-            destinationAutocomplete.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    showClearButton.showBtn("destination");
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
+            closeKeyboardHelper.close(activity, view);
+            clearButton.showBtn(autoCompleteTextView.getTag().toString());
         }
     };
 

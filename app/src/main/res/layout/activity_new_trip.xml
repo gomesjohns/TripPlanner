@@ -26,11 +26,12 @@
             android:layout_height="wrap_content"
             android:hint="@string/newTrip_destination"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:tag="destination"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonClearText1"
+        android:id="@+id/newTrip_autoCompleteTextView_destination_clearBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="8dp"
@@ -38,7 +39,9 @@
         android:drawableStart="@drawable/ic_action_clear_text"
         app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_destination"
         app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_destination"
-        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_destination" />
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_destination"
+        android:tag="destination"
+        android:visibility="invisible"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/newTrip_textInputLayout_depart"
@@ -59,11 +62,12 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/newTrip_departDate"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:tag="departureDate"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/buttonClearText2"
+        android:id="@+id/newTrip_textInputLayout_depart_clearBtn"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="8dp"
@@ -71,7 +75,9 @@
         android:drawableStart="@drawable/ic_action_clear_text"
         app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_depart"
         app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_depart"
-        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_depart" />
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_depart"
+        android:tag="departureDate"
+        android:visibility="invisible"/>
 
 
     <android.support.design.widget.TextInputLayout
@@ -92,12 +98,13 @@
             android:layout_height="wrap_content"
             android:focusable="false"
             android:hint="@string/newTrip_returnDate"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:tag="returnDate"/>
     </android.support.design.widget.TextInputLayout>
 
 
     <Button
-        android:id="@+id/buttonClearText3"
+        android:id="@+id/newTrip_textInputLayout_return_clearBtn"
         android:layout_width="23dp"
         android:layout_height="25dp"
         android:layout_marginEnd="8dp"
@@ -105,5 +112,7 @@
         android:drawableStart="@drawable/ic_action_clear_text"
         app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_return"
         app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_return"
-        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_return" />
+        app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_return"
+        android:tag="returnDate"
+        android:visibility="invisible"/>
 </android.support.constraint.ConstraintLayout>

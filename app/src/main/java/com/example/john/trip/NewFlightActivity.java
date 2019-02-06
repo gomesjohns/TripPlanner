@@ -13,10 +13,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.example.john.trip.helper.CloseKeyboard;
-import com.example.john.trip.helper.DatePickerHelper;
+import com.example.john.trip.helper.DatePickerUtil;
+import com.example.john.trip.helper.InputValidation;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.SelectedTrip;
-import com.example.john.trip.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,10 +25,11 @@ public class NewFlightActivity extends AppCompatActivity {
             arrivalDate, arrivalTime, arrivalTerminal, arrivalGate;
     private AutoCompleteTextView airline;
     private CloseKeyboard closeKeyboardHelper;
-    private DatePickerHelper datePickerHelper;
+    private DatePickerUtil datePickerUtil;
     private Flight flight;
     private DatabaseReference databaseReference;
     private SelectedTrip myTrip;
+    private InputValidation inputValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,8 @@ public class NewFlightActivity extends AppCompatActivity {
     //Init all the helper classes
     private void initHelperClasses() {
         closeKeyboardHelper = new CloseKeyboard();
-        datePickerHelper = new DatePickerHelper();
+        datePickerUtil = new DatePickerUtil();
+        inputValidation = new InputValidation();
     }
 
     //Listeners
@@ -126,8 +128,8 @@ public class NewFlightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewFlightActivity.this, v);
-                //Departure date picker- uses DatePickerHelper
-                datePickerHelper.datePickerDialog(NewFlightActivity.this, departureDate);
+                //Departure date picker- uses DatePickerUtil
+                datePickerUtil.datePickerDialog(NewFlightActivity.this, departureDate);
                 //Listener to show clear text button on text change
                 departureDate.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -167,18 +169,31 @@ public class NewFlightActivity extends AppCompatActivity {
         String aTerm_text= arrivalTerminal.getText().toString();
         String aGate_text= arrivalGate.getText().toString();
 
-        flight = new Flight(airline_text, flightNum_text, seats_text, confirmationNum_text
-        ,dCityAirport_text, dDate_text, dTime_text, dTerm_text, dGate_text, aCityAirport_text,
-                aDate_text, aTime_text, aTerm_text, aGate_text);
+        //Validate input
+        inputValidation.validateInputAutoComplete(airline, airline_text);
+        inputValidation.validateTextViewInput(flightNumber, flightNum_text);
+        inputValidation.validateTextViewInput(departureCityAirport, dCityAirport_text);
+        inputValidation.validateTextViewInput(departureDate, dDate_text);
+        inputValidation.validateTextViewInput(departureTime, dTime_text);
+        inputValidation.validateTextViewInput(arrivalCityAirport, aCityAirport_text);
+        inputValidation.validateTextViewInput(arrivalDate, aDate_text);
+        inputValidation.validateTextViewInput(arrivalTime, aTime_text);
 
-        String id = databaseReference.push().getKey();
-        databaseReference.child(myTrip.getTripId()).child("flight"+id).setValue(flight);
-        Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
-                Toast.LENGTH_LONG).show();
-        //Start TripDetailsActivity
-        Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
-        myIntent.putExtra("tripObj", myTrip);
-        NewFlightActivity.this.startActivity(myIntent);
+        if(inputValidation.getErrorCount() ==0) {
+
+            flight = new Flight(airline_text, flightNum_text, seats_text, confirmationNum_text
+                    , dCityAirport_text, dDate_text, dTime_text, dTerm_text, dGate_text, aCityAirport_text,
+                    aDate_text, aTime_text, aTerm_text, aGate_text);
+
+            String id = databaseReference.push().getKey();
+            databaseReference.child(myTrip.getTripId()).child("flight" + id).setValue(flight);
+            Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
+                    Toast.LENGTH_LONG).show();
+            //Start TripDetailsActivity
+            Intent myIntent = new Intent(NewFlightActivity.this, TripDetailsActivity.class);
+            myIntent.putExtra("tripObj", myTrip);
+            NewFlightActivity.this.startActivity(myIntent);
+        }
     }
 
 }

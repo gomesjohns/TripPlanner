@@ -18,13 +18,14 @@ import android.widget.Toast;
 
 import com.example.john.trip.helper.ClearText;
 import com.example.john.trip.helper.CloseKeyboard;
-import com.example.john.trip.helper.DatePickerHelper;
+import com.example.john.trip.helper.DatePickerUtil;
 import com.example.john.trip.helper.GooglePlaceApi;
-import com.example.john.trip.helper.HideClearButton;
-import com.example.john.trip.helper.ShowClearButton;
+import com.example.john.trip.helper.ClearButton;
 import com.example.john.trip.model.Trip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class NewTripActivity extends AppCompatActivity {
     //Global Variables
@@ -33,11 +34,12 @@ public class NewTripActivity extends AppCompatActivity {
     private TextInputEditText departureDate, returnDate;
     private ConstraintLayout newTripLayout;
     private DatabaseReference databaseReference;
-    private DatePickerHelper datePickerHelper;
+    private DatePickerUtil datePickerUtil;
     private CloseKeyboard closeKeyboardHelper;
+    private ClearButton clearButton;
     private ClearText clearText;
-    private HideClearButton hideClearButton;
-    private ShowClearButton showClearButton;
+    private ArrayList<Button> buttonArrayList;
+    private ArrayList<Object> textViewArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,6 @@ public class NewTripActivity extends AppCompatActivity {
 
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        hideClearButton.hideBtn("allBtn");//hides clear text buttons
     }
 
     //Init views
@@ -62,21 +62,30 @@ public class NewTripActivity extends AppCompatActivity {
         destinationAutocomplete = findViewById(R.id.newTrip_autoCompleteTextView_destination);
         departureDate = findViewById(R.id.newTrip_textInputEditText_departureDate);
         returnDate = findViewById(R.id.newTrip_textInputEditText_returnDate);
+        textViewArrayList = new ArrayList<>();
+        textViewArrayList.add(destinationAutocomplete);
+        textViewArrayList.add(departureDate);
+        textViewArrayList.add(returnDate);
 
-        buttonClearText1 = findViewById(R.id.buttonClearText1);
-        buttonClearText2 = findViewById(R.id.buttonClearText2);
-        buttonClearText3 = findViewById(R.id.buttonClearText3);
+        buttonClearText1 = findViewById(R.id.newTrip_autoCompleteTextView_destination_clearBtn);
+        buttonClearText2 = findViewById(R.id.newTrip_textInputLayout_depart_clearBtn);
+        buttonClearText3 = findViewById(R.id.newTrip_textInputLayout_return_clearBtn);
+
+        buttonArrayList= new ArrayList<>();
+        buttonArrayList.add(buttonClearText1);
+        buttonArrayList.add(buttonClearText2);
+        buttonArrayList.add(buttonClearText3);
+
         newTripLayout = findViewById(R.id.newTripLayout);
     }
 
     //Init all the helper classes
     private void initHelperClasses() {
-        datePickerHelper = new DatePickerHelper();
+        datePickerUtil = new DatePickerUtil();
         closeKeyboardHelper = new CloseKeyboard();
         clearText = new ClearText();
-        hideClearButton = new HideClearButton();
-        showClearButton = new ShowClearButton();
-        new GooglePlaceApi(this, NewTripActivity.this); //Init Google Place Api
+        clearButton = new ClearButton(buttonArrayList);
+        new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete, buttonArrayList); //Init Google Place Api
     }
 
     //Action bar menu for adding new trip
@@ -104,14 +113,32 @@ public class NewTripActivity extends AppCompatActivity {
 
     //Init listeners
     private void initListeners() {
+        //Destination
+        destinationAutocomplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearButton.showBtn(destinationAutocomplete.getTag().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         //Date pickers
         departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 closeKeyboardHelper.close(NewTripActivity.this, v);
-                //Departure date picker- uses DatePickerHelper
-                datePickerHelper.datePickerDialog(NewTripActivity.this, departureDate);
+                //Departure date picker- uses DatePickerUtil
+                datePickerUtil.datePickerDialog(NewTripActivity.this, departureDate);
                 //Listener to show clear text button on text change
                 departureDate.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -121,7 +148,7 @@ public class NewTripActivity extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        showClearButton.showBtn(departureDate.getHint().toString().toLowerCase());
+                        clearButton.showBtn(departureDate.getTag().toString());
                     }
 
                     @Override
@@ -136,8 +163,8 @@ public class NewTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewTripActivity.this, v);
-                //Return date picker- uses DatePickerHelper
-                datePickerHelper.datePickerDialog(NewTripActivity.this, returnDate);
+                //Return date picker- uses DatePickerUtil
+                datePickerUtil.datePickerDialog(NewTripActivity.this, returnDate);
                 //Listener to show clear text button on text change
                 returnDate.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -147,7 +174,7 @@ public class NewTripActivity extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        showClearButton.showBtn(returnDate.getHint().toString().toLowerCase());
+                        clearButton.showBtn(returnDate.getTag().toString());
                     }
 
                     @Override
@@ -158,29 +185,22 @@ public class NewTripActivity extends AppCompatActivity {
             }
         });
 
-        //Auto complete place field clear text button listener
-        buttonClearText1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearText.ClearTextAutoComplete(destinationAutocomplete);
-            }
-        });
 
-        //Departure date edit text field clear text button listener
-        buttonClearText2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearText.ClearTextEditText(departureDate);
-            }
-        });
+        //Loop to clear text of textviews from button clicked
+        for(int i=0; i<buttonArrayList.size();i++)
+        {
+            final int finalI = i;
+            buttonArrayList.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), destinationAutocomplete);
+                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), departureDate);
+                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), returnDate);
+                   clearButton.hideBtn(buttonArrayList.get(finalI).getTag().toString());//hide btn
+                }
+            });
+        }
 
-        //Return date edit text field clear text button listener
-        buttonClearText3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearText.ClearTextEditText(returnDate);
-            }
-        });
     }
 
     //Start Trip List Activity
