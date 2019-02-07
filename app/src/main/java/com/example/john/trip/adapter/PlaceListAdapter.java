@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-public class PlaceArrayAdapter extends ArrayAdapter<PlaceArrayAdapter.PlaceAutocomplete> implements Filterable
+public class PlaceListAdapter extends ArrayAdapter<PlaceListAdapter.PlaceAutocomplete> implements Filterable
 {
-    private static final String TAG= "PlaceArrayAdapter";
+    private static final String TAG= "PlaceListAdapter";
     private GoogleApiClient mGoogleApiClient;
     private AutocompleteFilter mPlaceFilter;
     private LatLngBounds mBounds;
     private ArrayList<PlaceAutocomplete> mResultList;
 
-    public PlaceArrayAdapter(Context context, int resource, LatLngBounds bounds,
-                             AutocompleteFilter filter) {
+    public PlaceListAdapter(Context context, int resource, LatLngBounds bounds,
+                            AutocompleteFilter filter) {
         super(context, resource);
         mBounds = bounds;
         mPlaceFilter = filter;

@@ -13,7 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.john.trip.adapter.PlaceArrayAdapter;
+import com.example.john.trip.adapter.PlaceListAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -33,7 +33,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     private static final String TAG = "GOOGLE PLACE ACTIVITY";
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private GoogleApiClient mGoogleApiClient;
-    private PlaceArrayAdapter placeArrayAdapter;
+    private PlaceListAdapter placeListAdapter;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(new LatLng(0, -0), new LatLng(0, -0));
 
     CloseKeyboard closeKeyboardHelper;
@@ -64,7 +64,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     }
 
     //Initializes google place api
-    public PlaceArrayAdapter initGoogleApi()
+    public PlaceListAdapter initGoogleApi()
     {
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                 .setTypeFilter(AutocompleteFilter.TYPE_FILTER_REGIONS)
@@ -76,9 +76,9 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
                 .build();
 
         autoCompleteTextView.setOnItemClickListener(clickListener);
-        placeArrayAdapter = new PlaceArrayAdapter(context, android.R.layout.simple_expandable_list_item_1, BOUNDS_MOUNTAIN_VIEW, typeFilter);
-        autoCompleteTextView.setAdapter(placeArrayAdapter);
-        return placeArrayAdapter;
+        placeListAdapter = new PlaceListAdapter(context, android.R.layout.simple_expandable_list_item_1, BOUNDS_MOUNTAIN_VIEW, typeFilter);
+        autoCompleteTextView.setAdapter(placeListAdapter);
+        return placeListAdapter;
     }
 
     public AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener()
@@ -86,7 +86,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            final PlaceArrayAdapter.PlaceAutocomplete item = placeArrayAdapter.getItem(position);
+            final PlaceListAdapter.PlaceAutocomplete item = placeListAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(placeDetails);
@@ -116,12 +116,12 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     @Override
     public void onConnected(@Nullable Bundle bundle)
     {
-        placeArrayAdapter.setGoogleApiClient(mGoogleApiClient);
+        placeListAdapter.setGoogleApiClient(mGoogleApiClient);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        placeArrayAdapter.setGoogleApiClient(null);
+        placeListAdapter.setGoogleApiClient(null);
     }
 
     @Override

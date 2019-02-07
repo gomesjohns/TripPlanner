@@ -20,6 +20,7 @@
         android:fadingEdgeLength="100dp"
         android:paddingTop="180dp"
         android:requiresFadingEdge="vertical|none"
+        android:translationZ="-1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -75,6 +76,7 @@
         android:id="@+id/tripDetails_tripImage"
         android:layout_width="0dp"
         android:layout_height="180dp"
+        android:contentDescription="@string/contentDes"
         android:fadingEdge="vertical"
         android:foreground="@drawable/gradient_bg"
         android:scaleType="centerCrop"
@@ -84,7 +86,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/travel"
-        android:contentDescription="@string/contentDes"
         tools:targetApi="m" />
 
 

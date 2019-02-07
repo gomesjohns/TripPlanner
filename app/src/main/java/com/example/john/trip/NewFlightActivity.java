@@ -1,6 +1,7 @@
 package com.example.john.trip;
 
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,35 +10,58 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.example.john.trip.helper.CloseKeyboard;
 import com.example.john.trip.helper.DatePickerUtil;
 import com.example.john.trip.helper.InputValidation;
+import com.example.john.trip.model.Airline;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.SelectedTrip;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class NewFlightActivity extends AppCompatActivity {
     private TextInputEditText departureDate, flightNumber, seats, confirmationNum, departureCityAirport, departureTime, departureTerminal, departureGate, arrivalCityAirport,
             arrivalDate, arrivalTime, arrivalTerminal, arrivalGate;
-    private AutoCompleteTextView airline;
+    private AutoCompleteTextView airlineAutoComplete;
     private CloseKeyboard closeKeyboardHelper;
     private DatePickerUtil datePickerUtil;
     private Flight flight;
     private DatabaseReference databaseReference;
     private SelectedTrip myTrip;
     private InputValidation inputValidation;
+    private ArrayList<Airline> airlineArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_flight);
 
+        //Load xml
+        try {
+            loadAirlineXml();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //Init views
         initViews();
+        //Set airline array adapter
+        setAirlineArrayAdapter();
         //Ger extras
         getExtras();
         //Init Db
@@ -46,6 +70,8 @@ public class NewFlightActivity extends AppCompatActivity {
         initHelperClasses();
         //Init listeners
         initListeners();
+
+
 
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,7 +111,7 @@ public class NewFlightActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
     //Initialize views
     private void initViews() {
-        airline = findViewById(R.id.addFlight_textInputAutocomplete_airline);
+        airlineAutoComplete = findViewById(R.id.addFlight_textInputAutocomplete_airline);
         flightNumber = findViewById(R.id.addFlight_textInputEditText_flightNumber);
         seats = findViewById(R.id.addFlight_textInputEditText_seats);
         confirmationNum = findViewById(R.id.addFlight_textInputEditText_confirmationNum);
@@ -151,10 +177,61 @@ public class NewFlightActivity extends AppCompatActivity {
         });
     }
 
+    //Load airline_list xml
+    private void loadAirlineXml() throws XmlPullParserException, IOException {
+        airlineArrayList = new ArrayList<>();
+
+        //Create ResourceParser for XML file
+        XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
+        XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
+        InputStream inputStream = getResources().openRawResource(R.raw.airline_list);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        xmlPullParser.setInput(reader);
+
+        //Check state
+        int eventType = xmlPullParser.getEventType();
+        while (eventType != XmlPullParser.END_DOCUMENT)
+        {
+            switch (eventType)
+            {
+                case XmlPullParser.START_TAG:
+                    String name = xmlPullParser.getName();
+
+                    if(name.equals("name"))
+                    {
+                        String airlineName= xmlPullParser.nextText();
+                        //Log.e("Airline NAME", "-------------------------------->"+xmlPullParser.nextText());
+                        Airline airline = new Airline(airlineName);
+                        airlineArrayList.add(airline);
+                    }
+
+                case XmlPullParser.END_TAG:
+
+            }
+            eventType = xmlPullParser.next();
+        }
+    }
+
+    //Set Airline array adapter
+    private void setAirlineArrayAdapter()
+    {
+        ArrayList<String> airlineNameList = new ArrayList<>();
+
+        for(int i=0; i<airlineArrayList.size();i++)
+        {
+            airlineNameList.add(airlineArrayList.get(i).getName());
+        }
+
+        ArrayAdapter<String> airlineArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_expandable_list_item_1, airlineNameList);
+        //airlineAutoComplete.setThreshold(1);
+        airlineAutoComplete.setAdapter(airlineArrayAdapter);
+    }
+
     //Method to add flight to the database
     private void addFlight()
     {
-        String airline_text= airline.getText().toString();
+        String airline_text= airlineAutoComplete.getText().toString();
         String flightNum_text= flightNumber.getText().toString();
         String seats_text= seats.getText().toString();
         String confirmationNum_text= confirmationNum.getText().toString();
@@ -170,7 +247,7 @@ public class NewFlightActivity extends AppCompatActivity {
         String aGate_text= arrivalGate.getText().toString();
 
         //Validate input
-        inputValidation.validateInputAutoComplete(airline, airline_text);
+        inputValidation.validateInputAutoComplete(airlineAutoComplete, airline_text);
         inputValidation.validateTextViewInput(flightNumber, flightNum_text);
         inputValidation.validateTextViewInput(departureCityAirport, dCityAirport_text);
         inputValidation.validateTextViewInput(departureDate, dDate_text);
