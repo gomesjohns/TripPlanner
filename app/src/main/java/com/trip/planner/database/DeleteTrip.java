@@ -1,4 +1,4 @@
-package tripPlanner.database;
+package com.trip.planner.database;
 
 import com.google.firebase.database.FirebaseDatabase;
 

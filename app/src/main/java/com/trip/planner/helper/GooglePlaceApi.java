@@ -1,4 +1,4 @@
-package tripPlanner.helper;
+package com.trip.planner.helper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import tripPlanner.adapter.PlaceListAdapter;
+import com.trip.planner.adapter.PlaceListAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;

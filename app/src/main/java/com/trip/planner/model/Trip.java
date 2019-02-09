@@ -1,4 +1,4 @@
-package tripPlanner.model;
+package com.trip.planner.model;
 
 public class Trip {
     String tripId;

@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_top">0dp</dimen>
+    <dimen name="margin_extra">10dp</dimen>
 </resources>

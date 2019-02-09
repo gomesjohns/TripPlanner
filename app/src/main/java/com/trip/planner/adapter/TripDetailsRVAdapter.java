@@ -1,4 +1,4 @@
-package tripPlanner.adapter;
+package com.trip.planner.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,9 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.john.tripPlanner.R;
-import tripPlanner.model.Flight;
-import tripPlanner.model.Lodging;
-import tripPlanner.model.Trip;
+import com.trip.planner.model.Flight;
+import com.trip.planner.model.Lodging;
+import com.trip.planner.model.Trip;
 
 import java.util.ArrayList;
 

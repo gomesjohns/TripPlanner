@@ -1,10 +1,10 @@
-package tripPlanner.helper;
+package com.trip.planner.helper;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
 
-import tripPlanner.Constants;
+import com.trip.planner.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

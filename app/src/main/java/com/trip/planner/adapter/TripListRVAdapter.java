@@ -1,4 +1,4 @@
-package tripPlanner.adapter;
+package com.trip.planner.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tripPlanner.helper.TimeRemainingCalculation;
-import tripPlanner.helper.TripImage;
-import tripPlanner.model.SelectedTrip;
-import tripPlanner.model.Trip;
+import com.trip.planner.helper.TimeRemainingCalculation;
+import com.trip.planner.helper.TripImage;
+import com.trip.planner.model.SelectedTrip;
+import com.trip.planner.model.Trip;
 import com.example.john.tripPlanner.R;
-import tripPlanner.TripDetailsActivity;
+import com.trip.planner.TripDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

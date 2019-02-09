@@ -1,4 +1,4 @@
-package tripPlanner;
+package com.trip.planner;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -16,12 +16,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import tripPlanner.helper.ClearText;
-import tripPlanner.helper.CloseKeyboard;
-import tripPlanner.helper.DatePickerUtil;
-import tripPlanner.helper.GooglePlaceApi;
-import tripPlanner.helper.ClearButton;
-import tripPlanner.model.Trip;
+import com.trip.planner.helper.ClearText;
+import com.trip.planner.helper.CloseKeyboard;
+import com.trip.planner.helper.DatePickerUtil;
+import com.trip.planner.helper.GooglePlaceApi;
+import com.trip.planner.helper.ClearButton;
+import com.trip.planner.model.Trip;
 
 import com.example.john.tripPlanner.R;
 import com.google.android.gms.location.places.AutocompleteFilter;

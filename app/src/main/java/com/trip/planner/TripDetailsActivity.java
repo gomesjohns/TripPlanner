@@ -1,4 +1,4 @@
-package tripPlanner;
+package com.trip.planner;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import tripPlanner.adapter.TripDetailsRVAdapter;
-import tripPlanner.database.DeleteTrip;
-import tripPlanner.model.Flight;
-import tripPlanner.model.Lodging;
-import tripPlanner.model.SelectedTrip;
-import tripPlanner.model.Trip;
+import com.trip.planner.adapter.TripDetailsRVAdapter;
+import com.trip.planner.database.DeleteTrip;
+import com.trip.planner.model.Flight;
+import com.trip.planner.model.Lodging;
+import com.trip.planner.model.SelectedTrip;
+import com.trip.planner.model.Trip;
 
 import com.example.john.tripPlanner.R;
 import com.github.clans.fab.FloatingActionButton;

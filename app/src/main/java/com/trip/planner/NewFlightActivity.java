@@ -1,4 +1,4 @@
-package tripPlanner;
+package com.trip.planner;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -13,13 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import tripPlanner.helper.CloseKeyboard;
-import tripPlanner.helper.DatePickerUtil;
-import tripPlanner.helper.InputValidation;
-import tripPlanner.helper.LoadXml;
-import tripPlanner.helper.TimePickerUtil;
-import tripPlanner.model.Flight;
-import tripPlanner.model.SelectedTrip;
+import com.trip.planner.helper.CloseKeyboard;
+import com.trip.planner.helper.DatePickerUtil;
+import com.trip.planner.helper.InputValidation;
+import com.trip.planner.helper.LoadXml;
+import com.trip.planner.helper.TimePickerUtil;
+import com.trip.planner.model.Flight;
+import com.trip.planner.model.SelectedTrip;
 
 import com.example.john.tripPlanner.R;
 import com.google.firebase.database.DatabaseReference;

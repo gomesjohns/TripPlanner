@@ -1,4 +1,4 @@
-package tripPlanner.helper;
+package com.trip.planner.helper;
 
 import android.support.design.widget.TextInputEditText;
 import android.widget.AutoCompleteTextView;

@@ -11,10 +11,12 @@
 
     <string name="contentDes">Trip Image</string>
 
+    <string name="confirmation">Confirmation #</string>
+    <string name="location">Location</string>
+
     <string name="newFlight_airline">Airline</string>
     <string name="newFlight_flightNum">Flight Number</string>
     <string name="newFlight_seats">Seat(s)</string>
-    <string name="newFlight_confirmation">Confirmation #</string>
     <string name="newFlight_departureDivider">Departure</string>
     <string name="newFlight_departureCityAirport">Departure City or Airport</string>
     <string name="newFlight_departureDate">Departure Date</string>
@@ -29,10 +31,16 @@
     <string name="newFlight_arrivalGate">Arrival Gate</string>
 
     <string name="newLodging_lodgingName">Lodging Name</string>
-    <string name="newLodging_lodgingLocation">Location</string>
     <string name="newLodging_checkInDate">Check-in Date</string>
     <string name="newLodging_checkInTime">Check-in Time</string>
     <string name="newLodging_checkOutDate">Check-out Date</string>
     <string name="newLodging_checkOutTime">Check-out Time</string>
+
+    <string name="newCar_companyName">Company Name</string>
+    <string name="newCar_pickUp">Pick-up</string>
+    <string name="newCar_dropOff">Drop Off</string>
+    <string name="newCar_date">Date</string>
+    <string name="newCar_time">Time</string>
+    <string name="newCar_notes">Notes</string>
 
 </resources>

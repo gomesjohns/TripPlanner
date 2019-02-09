@@ -1,7 +1,7 @@
-package tripPlanner.helper;
+package com.trip.planner.helper;
 
-import tripPlanner.Constants;
-import tripPlanner.model.Trip;
+import com.trip.planner.Constants;
+import com.trip.planner.model.Trip;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

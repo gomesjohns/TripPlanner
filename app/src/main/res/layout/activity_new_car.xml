@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.trip.planner.NewLodgingActivity">
+    tools:context="com.trip.planner.NewCarActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,18 +15,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/margin_extra"
+            android:layout_marginTop="@dimen/margin_top"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
-                android:id="@+id/addLodging_autoCompleteTextView_searchLodging"
+                android:id="@+id/addCar_autoCompleteTextView_companyName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/newLodging_lodgingName" />
+                android:hint="@string/newCar_companyName" />
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/addCar_textInputEditText_confirmationNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/confirmation" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSecondary"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/newCar_pickUp"
+            android:textAllCaps="true" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -36,18 +71,16 @@
             android:layout_marginEnd="8dp">
 
             <AutoCompleteTextView
-                android:id="@+id/addLodging_textInputAutoComplete_location"
+                android:id="@+id/addCar_textInputAutoComplete_pickUplocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/location"
                 android:tag="location"/>
         </android.support.design.widget.TextInputLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="185dp"
@@ -57,12 +90,12 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addLodging_textInputEditText_checkInDate"
+                    android:id="@+id/addCar_textInputEditText_pickUpDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="@string/newLodging_checkInDate"
+                    android:hint="@string/newCar_date"
                     android:tag="checkIn"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -75,16 +108,45 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addLodging_textInputEditText_checkInTime"
+                    android:id="@+id/addCar_textInputEditText_pickUpTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="@string/newLodging_checkInTime"
+                    android:hint="@string/newCar_time"
                     android:tag="checkIn"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSecondary"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/newCar_dropOff"
+            android:textAllCaps="true" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginEnd="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/addCar_textInputAutoComplete_dropOfflocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/location"
+                android:tag="location"/>
+        </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,12 +161,12 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addLodging_textInputEditText_checkOutDate"
+                    android:id="@+id/addCar_textInputEditText_dropOffDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="@string/newLodging_checkOutDate"
+                    android:hint="@string/newCar_date"
                     android:tag="checkIn"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -117,12 +179,12 @@
                 android:layout_marginEnd="8dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addLodging_textInputEditText_checkOutTime"
+                    android:id="@+id/addCar_textInputEditText_dropOffTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:hint="@string/newLodging_checkOutTime"
+                    android:hint="@string/newCar_time"
                     android:tag="checkOut"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>

@@ -1,4 +1,4 @@
-package tripPlanner.adapter;
+package com.trip.planner.adapter;
 
 import android.content.Context;
 import android.util.Log;

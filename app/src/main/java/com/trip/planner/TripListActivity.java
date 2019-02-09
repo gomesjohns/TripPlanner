@@ -1,4 +1,4 @@
-package tripPlanner;
+package com.trip.planner;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import tripPlanner.adapter.TripListRVAdapter;
-import tripPlanner.model.Trip;
+import com.trip.planner.adapter.TripListRVAdapter;
+import com.trip.planner.model.Trip;
 
 import com.example.john.tripPlanner.R;
 import com.google.firebase.database.DataSnapshot;

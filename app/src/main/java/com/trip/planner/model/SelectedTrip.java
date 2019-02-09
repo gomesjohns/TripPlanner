@@ -1,4 +1,4 @@
-package tripPlanner.model;
+package com.trip.planner.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

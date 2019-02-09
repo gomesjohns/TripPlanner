@@ -1,4 +1,4 @@
-package tripPlanner.helper;
+package com.trip.planner.helper;
 
 import android.content.Context;
 
