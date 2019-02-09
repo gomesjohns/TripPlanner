@@ -349,12 +349,12 @@ public class NewFlightActivity extends AppCompatActivity {
         inputValidation.validateTextViewInput(arrivalTime, aTime_text);
 
         if(inputValidation.getErrorCount() ==0) {
-            //Validate input
-            flight = new Flight(airline_text, flightNum_text, seats_text, confirmationNum_text
+            String id = databaseReference.push().getKey();
+            flight = new Flight(id,airline_text, flightNum_text, seats_text, confirmationNum_text
                     , dCityAirport_text, dDate_text, dTime_text, dTerm_text, dGate_text, aCityAirport_text,
                     aDate_text, aTime_text, aTerm_text, aGate_text);
 
-            String id = databaseReference.push().getKey();
+
             databaseReference.child(myTrip.getTripId()).child("flight" + id).setValue(flight);
             Toast.makeText(NewFlightActivity.this, "Flight Added Successfully",
                     Toast.LENGTH_LONG).show();

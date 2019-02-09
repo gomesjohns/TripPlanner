@@ -38,4 +38,12 @@ public class Trip {
     public String getTripLocation() {
         return tripLocation;
     }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.john.trip.model;
 
 public class Flight extends Trip {
+    private String flightId;
     private String airline;
     private String flightNumber;
     private String seats;
@@ -20,10 +21,11 @@ public class Flight extends Trip {
 
     }
 
-    public Flight(String airline, String flightNumber, String seats, String confirmationNum,
+    public Flight(String id, String airline, String flightNumber, String seats, String confirmationNum,
                   String departureCityAirport, String departureDate, String departureTime,
                   String departureTerminal, String departureGate, String arrivalCityAirport,
                   String arrivalDate, String arrivalTime, String arrivalTerminal, String arrivalGate) {
+        this.flightId = id;
         this.airline = airline;
         this.flightNumber = flightNumber;
         this.seats = seats;
@@ -38,6 +40,8 @@ public class Flight extends Trip {
         this.arrivalTime = arrivalTime;
         this.arrivalTerminal = arrivalTerminal;
         this.arrivalGate = arrivalGate;
+        startDate = this.departureDate;
+        endDate = this.arrivalDate;
     }
 
     public String getAirline() {

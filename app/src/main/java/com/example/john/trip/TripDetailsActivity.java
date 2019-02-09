@@ -22,6 +22,7 @@ import com.example.john.trip.database.DeleteTrip;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.Lodging;
 import com.example.john.trip.model.SelectedTrip;
+import com.example.john.trip.model.Trip;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,7 +76,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         //Retrieve flight data
-        retrieveFlightlodgingData();
+        retrieveFlightLodgingData();
 
     }
 
@@ -170,7 +171,7 @@ public class TripDetailsActivity extends AppCompatActivity {
     }
 
     //Get lodging data from database based on trip id
-    private void retrieveFlightlodgingData()
+    private void retrieveFlightLodgingData()
     {
         tempArrayList = new ArrayList<>();
 
@@ -181,7 +182,6 @@ public class TripDetailsActivity extends AppCompatActivity {
                 tempArrayList.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
                 {
-
                     if(dataSnapshot1.getKey().contains("flight"))
                     {
                         Flight flight = dataSnapshot1.getValue(Flight.class);
@@ -190,62 +190,27 @@ public class TripDetailsActivity extends AppCompatActivity {
                     else if(dataSnapshot1.getKey().contains("lodging")) {
                         Lodging lodging = dataSnapshot1.getValue(Lodging.class);
                         tempArrayList.add(lodging);
-                        tempArrayList.add(lodging);
-                        Log.i("Size", "---------------------------------"+tempArrayList.size());
+                        Lodging lodgingCopy = new Lodging(lodging.getLodgingId(),lodging.getLodgingName(),
+                                lodging.getLodgingLocation(), lodging.getCheckInDate(), lodging.getCheckInTime(),
+                                lodging.getCheckOutDate(), lodging.getCheckOutTime(), lodging.getCheckOutDate(), lodging.getCheckInDate());
+                        lodgingCopy.setLodgingCopy(true);
+                        tempArrayList.add(lodgingCopy);
                     }
 
                     //Comparator
-                    Collections.sort(tempArrayList, new Comparator<Object>() {
+                    Collections.sort(tempArrayList, new Comparator<Object>()
+                    {
                         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN);
+
                         @Override
-                        public int compare(Object o1, Object o2) {
-                            //If FLIGHT and FLIGHT
-                            if(o1 instanceof Flight && o2 instanceof Flight)
-                            {
-                                String s1= ((Flight) o1).getDepartureDate();
-                                String s2= ((Flight) o2).getDepartureDate();
-                                try {
-                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            //If FLIGHT and lodging
-                            if(o1 instanceof Flight && o2 instanceof Lodging)
-                            {
-                                String s1= ((Flight) o1).getDepartureDate();
-                                String s2= ((Lodging) o2).getCheckInDate();
-                                try {
-                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            //If lodging and lodging
-                            if(o1 instanceof Lodging && o2 instanceof Lodging)
-                            {
-                                String s1= ((Lodging) o1).getCheckInDate();
-                                String s2= ((Lodging) o2).getCheckInDate();
-                                try {
-                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            //If lodging and FLIGHT
-                            if(o1 instanceof Lodging && o2 instanceof Flight)
-                            {
-                                String s1= ((Lodging) o1).getCheckInDate();
-                                String s2= ((Flight) o2).getDepartureDate();
-                                try {
-                                    return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            else
-                            {
-                                return 0;
+                        public int compare(Object o1, Object o2)
+                        {
+                            String s1= ((Trip) o1).getStartDate();
+                            String s2= ((Trip) o2).getStartDate();
+                            try {
+                                return (dateFormat.parse(s1).compareTo(dateFormat.parse(s2)));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
                             return 0;
                         }

@@ -168,10 +168,10 @@ public class NewLodgingActivity extends AppCompatActivity {
 
         if(inputValidation.getErrorCount() ==0)
         {
-            lodging = new Lodging(nameLodging, locationLodging, dateCheckIn, timeCheckIn, dateCheckOut
-                    , timeCheckOut);
-
             String id = databaseReference.push().getKey();
+
+            lodging = new Lodging(id, nameLodging, locationLodging, dateCheckIn, timeCheckIn, dateCheckOut
+                    , timeCheckOut, dateCheckIn, dateCheckOut);
             databaseReference.child(myTrip.getTripId()).child("lodging"+id).setValue(lodging);
             Toast.makeText(NewLodgingActivity.this, "Lodging Added Successfully",
                     Toast.LENGTH_LONG).show();

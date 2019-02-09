@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.john.trip.R;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.Lodging;
+import com.example.john.trip.model.Trip;
 
 import java.util.ArrayList;
 
@@ -58,70 +59,15 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             dateLayout.setVisibility(View.VISIBLE);
         }
         else{
-
-            if(tripDetailsArrayList.get(position) instanceof Flight &&
-                    tripDetailsArrayList.get(position -1) instanceof Flight )
+            String d1 = ((Trip) tripDetailsArrayList.get(position)).getStartDate();
+            String d2 = ((Trip) tripDetailsArrayList.get(position-1)).getStartDate();
+            if(!d1.equals(d2))
             {
-                String flightDepDate = ((Flight) tripDetailsArrayList.get(position)).getDepartureDate();
-                String prevFlightDepDate = ((Flight) tripDetailsArrayList.get(position-1)).getDepartureDate();
-
-                if(!flightDepDate.equals(prevFlightDepDate))
-                {
-                    dateLayout.setVisibility(View.VISIBLE);
-                }
-                else {
-                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
-                }
+                dateLayout.setVisibility(View.VISIBLE);
             }
-            if(tripDetailsArrayList.get(position) instanceof Flight &&
-                    tripDetailsArrayList.get(position -1) instanceof Lodging)
-            {
-                String flightDepDate = ((Flight) tripDetailsArrayList.get(position)).getDepartureDate();
-                String prevLodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position-1)).getCheckInDate();
-
-                if(!flightDepDate.equals(prevLodgeCheckInDate))
-                {
-                    dateLayout.setVisibility(View.VISIBLE);
-                }
-                else {
-                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
-                }
+            else {
+                ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
             }
-            if(tripDetailsArrayList.get(position) instanceof Lodging &&
-                    tripDetailsArrayList.get(position -1) instanceof Lodging)
-            {
-                String lodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckInDate();
-                String prevLodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position-1)).getCheckInDate();
-                String lodgeCheckOutDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckOutDate();
-                String prevLodgeCheckOutDate = ((Lodging) tripDetailsArrayList.get(position -1)).getCheckOutDate();
-
-                if(!lodgeCheckInDate.equals(prevLodgeCheckInDate))
-                {
-                    dateLayout.setVisibility(View.VISIBLE);
-                }
-                if(lodgeCheckInDate.equals(prevLodgeCheckInDate) && lodgeCheckOutDate.equals(prevLodgeCheckOutDate))
-                {
-                    dateLayout.setVisibility(View.VISIBLE);
-                }
-                else {
-                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
-                }
-            }
-            if(tripDetailsArrayList.get(position) instanceof Lodging &&
-                    tripDetailsArrayList.get(position -1) instanceof Flight)
-            {
-                String lodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckInDate();
-                String prevFlightDepDate = ((Flight) tripDetailsArrayList.get(position-1)).getDepartureDate();
-
-                if(!lodgeCheckInDate.equals(prevFlightDepDate))
-                {
-                    dateLayout.setVisibility(View.VISIBLE);
-                }
-                else {
-                    ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
-                }
-            }
-
         }
 
     }
@@ -159,7 +105,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == VIEW_TYPE_FLIGHT) {
             return new FlightViewHolder(LayoutInflater.from(context).inflate(R.layout.flight_row, viewGroup, false));
         } else {
-            return new HotelViewHolder(LayoutInflater.from(context).inflate(R.layout.lodging_row, viewGroup, false));
+            return new LodgingViewHolder(LayoutInflater.from(context).inflate(R.layout.lodging_row, viewGroup, false));
         }
     }
 
@@ -168,17 +114,18 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         drawTimeline(position);
         addDateHeader(position);
 
+
         //Flight
         if (viewHolder instanceof FlightViewHolder) {
-            Log.v("TAG", "---------------------------------------------------------------- FLIGHT");
+            Log.v("TAG", "---------------------------------------------------------------- FLIGHT ");
             Flight flight = (Flight) tripDetailsArrayList.get(position);
             ((FlightViewHolder) viewHolder).populate(flight);
         }
         //Lodging
-        if (viewHolder instanceof HotelViewHolder) {
-            Log.v("TAG", "---------------------------------------------------------------- HOTEL");
+        if (viewHolder instanceof LodgingViewHolder) {
+            Log.v("TAG", "---------------------------------------------------------------- HOTEL ");
             Lodging lodging = (Lodging) tripDetailsArrayList.get(position);
-            ((HotelViewHolder) viewHolder).populate(lodging);
+            ((LodgingViewHolder) viewHolder).populate(lodging, position);
         }
     }
 
@@ -215,10 +162,10 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public class HotelViewHolder extends RecyclerView.ViewHolder {
+    public class LodgingViewHolder extends RecyclerView.ViewHolder {
         TextView tripDetails_lodge_lodgeName, tripDetails_lodge_lodgeLocation, tripDetails_lodge_lodgeTime;
 
-        public HotelViewHolder(@NonNull View itemView) {
+        public LodgingViewHolder(@NonNull View itemView) {
             super(itemView);
             initDrawableViews(itemView);
 
@@ -228,16 +175,26 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             tripDetails_lodge_lodgeTime = itemView.findViewById(R.id.lodgeRow_lodgeTime);
         }
 
-        public void populate(Lodging lodging) {
-            if(tripDetailsArrayList.contains(lodging.getLodgingName()))
+        public void populate(Lodging lodging, int position) {
+            //Check if previous object is a lodge object
+            if(position!=0)
             {
-                dateRow_textView.setText(lodging.getCheckOutDate());
-            }else {
-                dateRow_textView.setText(lodging.getCheckInDate());
-                tripDetails_lodge_lodgeName.setText(lodging.getLodgingName());
-                tripDetails_lodge_lodgeLocation.setText(lodging.getLodgingLocation());
-                tripDetails_lodge_lodgeTime.setText(lodging.getCheckInTime());
+                if(lodging.isLodgingCopy())
+                {
+                    dateRow_textView.setText(lodging.getCheckOutDate());
+                    tripDetails_lodge_lodgeTime.setText("Check-out "+lodging.getCheckOutTime()); //Show checkout time
+                }
+                else {
+                    dateRow_textView.setText(lodging.getCheckInDate());
+                    tripDetails_lodge_lodgeTime.setText("Check-in "+lodging.getCheckInTime()); //Show checkin time
+                }
             }
+            else {
+                dateRow_textView.setText(lodging.getCheckInDate());
+                tripDetails_lodge_lodgeTime.setText("Check-in "+lodging.getCheckInTime());
+            }
+            tripDetails_lodge_lodgeName.setText(lodging.getLodgingName());
+            tripDetails_lodge_lodgeLocation.setText(lodging.getLodgingLocation());
 
         }
     }
