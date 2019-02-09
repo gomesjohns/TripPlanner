@@ -34,6 +34,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private GoogleApiClient mGoogleApiClient;
     private PlaceListAdapter placeListAdapter;
+    int filter;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(new LatLng(0, -0), new LatLng(0, -0));
 
     CloseKeyboard closeKeyboardHelper;
@@ -46,28 +47,41 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     private ArrayList<Button> buttonArrayList;
 
 
-    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView, ArrayList<Button> buttonArrayList)
+    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView,
+                          ArrayList<Button> buttonArrayList, int filter)
     {
         this.context = context;
         this.activity = activity;
         this.autoCompleteTextView = autoCompleteTextView;
         this.buttonArrayList = buttonArrayList;
+        this.filter = filter;
         initHelperClasses();
         initGoogleApi();
     }
+
+    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView, int filter)
+    {
+        this.context = context;
+        this.activity = activity;
+        this.autoCompleteTextView = autoCompleteTextView;
+        this.filter = filter;
+        initHelperClasses();
+        initGoogleApi();
+    }
+
 
     public void initHelperClasses()
     {
         closeKeyboardHelper = new CloseKeyboard();
         clearText= new ClearText();
-        clearButton = new ClearButton(buttonArrayList);
+        //clearButton = new ClearButton(buttonArrayList);
     }
 
     //Initializes google place api
     public PlaceListAdapter initGoogleApi()
     {
         AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                .setTypeFilter(AutocompleteFilter.TYPE_FILTER_REGIONS)
+                .setTypeFilter(filter)
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(Places.GEO_DATA_API)

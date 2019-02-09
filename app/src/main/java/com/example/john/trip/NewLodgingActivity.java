@@ -12,17 +12,19 @@ import android.widget.Toast;
 
 import com.example.john.trip.helper.CloseKeyboard;
 import com.example.john.trip.helper.DatePickerUtil;
+import com.example.john.trip.helper.GooglePlaceApi;
 import com.example.john.trip.helper.InputValidation;
 import com.example.john.trip.helper.TimePickerUtil;
 import com.example.john.trip.model.Lodging;
 import com.example.john.trip.model.SelectedTrip;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class NewLodgingActivity extends AppCompatActivity {
 
-    private TextInputEditText lodgingLocation, checkInDate, checkInTime, checkOutDate, checkOutTime;
-    private AutoCompleteTextView lodgingName;
+    private TextInputEditText checkInDate, checkInTime, checkOutDate, checkOutTime;
+    private AutoCompleteTextView lodgingName, lodgingLocation;
     private DatabaseReference databaseReference;
     private Lodging lodging;
     private SelectedTrip myTrip;
@@ -86,7 +88,7 @@ public class NewLodgingActivity extends AppCompatActivity {
     //Initialize views
     private void initViews() {
         lodgingName = findViewById(R.id.addLodging_autoCompleteTextView_searchLodging);
-        lodgingLocation = findViewById(R.id.addLodging_textInputEditText_location);
+        lodgingLocation = findViewById(R.id.addLodging_textInputAutoComplete_location);
         checkInDate = findViewById(R.id.addLodging_textInputEditText_checkInDate);
         checkInTime = findViewById(R.id.addLodging_textInputEditText_checkInTime);
         checkOutDate = findViewById(R.id.addLodging_textInputEditText_checkOutDate);
@@ -101,6 +103,7 @@ public class NewLodgingActivity extends AppCompatActivity {
         inputValidation = new InputValidation();
         timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkInTime);
         timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkOutTime);
+        new GooglePlaceApi(this, NewLodgingActivity.this, lodgingLocation, AutocompleteFilter.TYPE_FILTER_ADDRESS); //Init Google Place Api
     }
 
 
@@ -159,7 +162,7 @@ public class NewLodgingActivity extends AppCompatActivity {
 
         inputValidation.setErrorCount();
         inputValidation.validateInputAutoComplete(lodgingName, nameLodging);
-        inputValidation.validateTextViewInput(lodgingLocation, locationLodging);
+        inputValidation.validateInputAutoComplete(lodgingLocation, locationLodging);
         inputValidation.validateTextViewInput(checkInDate, dateCheckIn);
         inputValidation.validateTextViewInput(checkInTime, timeCheckIn);
         inputValidation.validateTextViewInput(checkOutDate, dateCheckOut);

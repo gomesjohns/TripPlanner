@@ -35,11 +35,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/addLodging_textInputEditText_location"
+            <AutoCompleteTextView
+                android:id="@+id/addLodging_textInputAutoComplete_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/newLodging_lodgingLocation" />
+                android:hint="@string/newLodging_lodgingLocation"
+                android:tag="location"/>
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout

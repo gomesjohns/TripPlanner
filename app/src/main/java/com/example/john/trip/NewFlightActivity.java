@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.john.trip.helper.CloseKeyboard;
 import com.example.john.trip.helper.DatePickerUtil;
 import com.example.john.trip.helper.InputValidation;
+import com.example.john.trip.helper.LoadXml;
 import com.example.john.trip.helper.TimePickerUtil;
 import com.example.john.trip.model.Flight;
 import com.example.john.trip.model.SelectedTrip;
@@ -46,35 +47,32 @@ public class NewFlightActivity extends AppCompatActivity {
     private CloseKeyboard closeKeyboardHelper;
     private ArrayList<String> airlineArrayList;
     private ArrayList<String> airportArrayList;
+    private LoadXml loadXml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_flight);
 
-        //Load xml
-        try {
-            loadAirlineXml();
-            loadAirportXml();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         //Init views
         initViews();
-        //Set airline array adapter
-        setAirlineArrayAdapter();
-        setAirportArrayAdapter();
+        //Init helpers
+        initHelperClasses();
+        //Load XML
+        try {
+            setAirlineArrayAdapter();
+            setAirportArrayAdapter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
         //Ger extras
         getExtras();
         //Init Db
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
-        //Init helpers
-        initHelperClasses();
         //Init listeners
         initListeners();
-
 
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -149,6 +147,7 @@ public class NewFlightActivity extends AppCompatActivity {
         datePickerUtil = new DatePickerUtil();
         timePickerUtil = new TimePickerUtil();
         inputValidation = new InputValidation();
+        loadXml = new LoadXml();
     }
 
     //Listeners
@@ -221,45 +220,13 @@ public class NewFlightActivity extends AppCompatActivity {
         });
     }
 
-    //----------------------------------------Airline XML-------------------------------------------
-    //Load airline_list xml
-    private void loadAirlineXml() throws XmlPullParserException, IOException {
-        airlineArrayList = new ArrayList<>();
+    //-------------------------------Load airport/airline list XML----------------------------------
+    //Set airline array adapter
+    private void setAirlineArrayAdapter() throws IOException, XmlPullParserException {
 
-        //Create ResourceParser for XML file
-        XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-        XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-        InputStream inputStream = getResources().openRawResource(R.raw.airline_list);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        xmlPullParser.setInput(reader);
-
-        //Check state
-        int eventType = xmlPullParser.getEventType();
-        while (eventType != XmlPullParser.END_DOCUMENT)
-        {
-            switch (eventType)
-            {
-                case XmlPullParser.START_TAG:
-                    String name = xmlPullParser.getName();
-
-                    if(name.equals("name"))
-                    {
-                        String airlineName= xmlPullParser.nextText();
-                        //Log.e("Airline NAME", "-------------------------------->"+xmlPullParser.nextText());
-                        airlineArrayList.add(airlineName);
-                    }
-
-                case XmlPullParser.END_TAG:
-
-            }
-            eventType = xmlPullParser.next();
-        }
-    }
-
-    //Set Airline array adapter
-    private void setAirlineArrayAdapter()
-    {
         ArrayList<String> airlineNameList = new ArrayList<>();
+        airlineArrayList = new ArrayList<>();
+        airlineArrayList = loadXml.xmlLoad(NewFlightActivity.this, R.raw.airline_list);
 
         for(int i=0; i<airlineArrayList.size();i++)
         {
@@ -268,45 +235,15 @@ public class NewFlightActivity extends AppCompatActivity {
 
         ArrayAdapter<String> airlineArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_expandable_list_item_1, airlineNameList);
-        //airlineAutoComplete.setThreshold(1);
         airlineAutoComplete.setAdapter(airlineArrayAdapter);
     }
 
-    //----------------------------------------Airport XML-------------------------------------------
-    //Load airline_list xml
-    private void loadAirportXml() throws XmlPullParserException, IOException {
+    //Set airport array adapter
+    private void setAirportArrayAdapter() throws IOException, XmlPullParserException {
+
+        ArrayList<String> airportList =new ArrayList<>();
         airportArrayList = new ArrayList<>();
-
-        //Create ResourceParser for XML file
-        XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-        XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-        InputStream inputStream = getResources().openRawResource(R.raw.airport_list);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        xmlPullParser.setInput(reader);
-
-        //Check state
-        int eventType = xmlPullParser.getEventType();
-        while (eventType != XmlPullParser.END_DOCUMENT)
-        {
-            switch (eventType)
-            {
-                case XmlPullParser.START_TAG:
-                    String name = xmlPullParser.getName();
-
-                    if(name.equals("name"))
-                    {
-                        String airportName= xmlPullParser.nextText();
-                        airportArrayList.add(airportName);
-                    }
-                case XmlPullParser.END_TAG:
-            }
-            eventType = xmlPullParser.next();
-        }
-    }
-    //Set Airline array adapter
-    private void setAirportArrayAdapter()
-    {
-        ArrayList<String> airportList = new ArrayList<>();
+        airportArrayList= loadXml.xmlLoad(NewFlightActivity.this, R.raw.airport_list);
 
         for(int i=0; i<airportArrayList.size();i++)
         {
@@ -315,11 +252,11 @@ public class NewFlightActivity extends AppCompatActivity {
 
         ArrayAdapter<String> airPortArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_expandable_list_item_1, airportList);
-        //airlineAutoComplete.setThreshold(1);
         departureCityAirport.setAdapter(airPortArrayAdapter);
         arrivalCityAirport.setAdapter(airPortArrayAdapter);
     }
 
+    //-------------------------------------Add flight to DB-----------------------------------------
     //Method to add flight to the database
     private void addFlight()
     {

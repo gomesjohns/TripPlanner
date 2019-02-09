@@ -22,6 +22,7 @@ import com.example.john.trip.helper.DatePickerUtil;
 import com.example.john.trip.helper.GooglePlaceApi;
 import com.example.john.trip.helper.ClearButton;
 import com.example.john.trip.model.Trip;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -85,7 +86,8 @@ public class NewTripActivity extends AppCompatActivity {
         closeKeyboardHelper = new CloseKeyboard();
         clearText = new ClearText();
         clearButton = new ClearButton(buttonArrayList);
-        new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete, buttonArrayList); //Init Google Place Api
+        new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete,
+                buttonArrayList, AutocompleteFilter.TYPE_FILTER_REGIONS); //Init Google Place Api
     }
 
     //Action bar menu for adding new trip
