@@ -32,7 +32,7 @@
         <FrameLayout
             android:id="@+id/timeline1"
             android:layout_width="2dp"
-            android:layout_height="85dp"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:background="@color/horizontalLine"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,9 +43,10 @@
         <FrameLayout
             android:id="@+id/timeline2"
             android:layout_width="2dp"
-            android:layout_height="85dp"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:background="@color/horizontalLine"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timeline1">
 
@@ -54,9 +55,12 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="329dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_bg"
+            android:padding="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent">
@@ -67,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:maxLines="2"
                 android:text="Toronto to New York"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,20 +92,22 @@
                 android:layout_width="310dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/horizontalLine"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.448"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flightRow_airline_flightNum" />
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="60dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <TextView
                     android:id="@+id/textView9"
@@ -143,9 +150,9 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/textView6"

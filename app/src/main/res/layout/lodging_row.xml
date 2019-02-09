@@ -29,9 +29,10 @@
         <FrameLayout
             android:id="@+id/timeline2"
             android:layout_width="2dp"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
             android:layout_marginStart="32dp"
             android:background="@color/horizontalLine"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timeline1">
 
@@ -54,13 +55,25 @@
             android:layout_width="329dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/hotelRow_hotelName"
+                android:id="@+id/lodgeRow_lodgeTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lodgeRow_lodgeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -69,19 +82,18 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/lodgeRow_lodgeTime" />
 
             <TextView
-                android:id="@+id/hotelRow_hotelLocation"
+                android:id="@+id/lodgeRow_lodgeLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Hotel Location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hotelRow_hotelName" />
+                app:layout_constraintTop_toBottomOf="@+id/lodgeRow_lodgeName" />
         </android.support.constraint.ConstraintLayout>
 
         <FrameLayout

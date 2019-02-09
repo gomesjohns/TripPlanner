@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -185,17 +186,17 @@ public class TripDetailsActivity extends AppCompatActivity {
                     {
                         Flight flight = dataSnapshot1.getValue(Flight.class);
                         tempArrayList.add(flight);
-                        //myTrip.setArrayList(flight);
                     }
                     else if(dataSnapshot1.getKey().contains("lodging")) {
                         Lodging lodging = dataSnapshot1.getValue(Lodging.class);
                         tempArrayList.add(lodging);
-                        //myTrip.setArrayList(lodging);
+                        tempArrayList.add(lodging);
+                        Log.i("Size", "---------------------------------"+tempArrayList.size());
                     }
 
                     //Comparator
                     Collections.sort(tempArrayList, new Comparator<Object>() {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN);
                         @Override
                         public int compare(Object o1, Object o2) {
                             //If FLIGHT and FLIGHT

@@ -40,7 +40,7 @@
                     android:id="@+id/addFlight_textInputEditText_flightNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newFlight_flightNum" />
+                    android:hint="@string/newFlight_flightNum"/>
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -59,7 +59,7 @@
                         android:id="@+id/addFlight_textInputEditText_seats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_seats" />
+                        android:hint="@string/newFlight_seats"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -101,8 +101,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addFlight_textInputEditText_departureCityAirport"
+                <AutoCompleteTextView
+                    android:id="@+id/addFlight_textInputAutocomplete_departureCityAirport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/newFlight_departureCityAirport" />
@@ -126,7 +126,10 @@
                         android:id="@+id/addFlight_textInputEditText_departureDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_departureDate" />
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:hint="@string/newFlight_departureDate"
+                        android:tag="departure"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -141,7 +144,10 @@
                         android:id="@+id/addFlight_textInputEditText_departureTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_departureTime" />
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:hint="@string/newFlight_departureTime"
+                        android:tag="departureTime"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -203,8 +209,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addFlight_textInputEditText_arrivalCityAirport"
+                <AutoCompleteTextView
+                    android:id="@+id/addFlight_textInputAutocomplete_arrivalCityAirport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/newFlight_arrivalCityAirport" />
@@ -227,7 +233,10 @@
                         android:id="@+id/addFlight_textInputEditText_arrivalDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_arrivalDate" />
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:hint="@string/newFlight_arrivalDate"
+                        android:tag="arrival"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -242,7 +251,10 @@
                         android:id="@+id/addFlight_textInputEditText_arrivalTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_arrivalTime" />
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:hint="@string/newFlight_arrivalTime"
+                        android:tag="arrivalTime"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 

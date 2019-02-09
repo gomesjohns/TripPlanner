@@ -1,6 +1,7 @@
 package com.example.john.trip.helper;
 
 import android.support.design.widget.TextInputEditText;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 
 public class InputValidation {
@@ -17,7 +18,6 @@ public class InputValidation {
         }
         else {
             textInputEditText.setError(null);
-            errorCount--;
         }
     }
 
@@ -29,13 +29,15 @@ public class InputValidation {
         }
         else {
             autoCompleteTextView.setError(null);
-            errorCount--;
         }
     }
 
     public int getErrorCount()
     {
         return errorCount;
+    }
+    public void setErrorCount() {
+        this.errorCount = 0;
     }
 
 }

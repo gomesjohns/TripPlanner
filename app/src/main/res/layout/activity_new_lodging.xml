@@ -59,7 +59,10 @@
                     android:id="@+id/addLodging_textInputEditText_checkInDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newLodging_checkInDate" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/newLodging_checkInDate"
+                    android:tag="checkIn"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +77,10 @@
                     android:id="@+id/addLodging_textInputEditText_checkInTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newLodging_checkInTime" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/newLodging_checkInTime"
+                    android:tag="checkIn"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -95,7 +101,10 @@
                     android:id="@+id/addLodging_textInputEditText_checkOutDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newLodging_checkOutDate" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/newLodging_checkOutDate"
+                    android:tag="checkIn"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -110,7 +119,10 @@
                     android:id="@+id/addLodging_textInputEditText_checkOutTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newLodging_checkOutTime" />
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/newLodging_checkOutTime"
+                    android:tag="checkOut"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </LinearLayout>

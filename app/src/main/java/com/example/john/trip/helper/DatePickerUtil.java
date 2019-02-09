@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class DatePickerUtil {
     //Global Vars
-    private Calendar calendarDepart, calendarReturn;
+    private Calendar calendar1, calendar2;
     private int year;
     private int month;
     private int day;
@@ -32,24 +32,26 @@ public class DatePickerUtil {
 
     public void datePickerDialog(Context context, final TextInputEditText textInput) {
         //--------------------------------------Departure------------------------------------
-        if (textInput.getHint().toString().toLowerCase().equals("depart")) {
-            if (calendarDepart != null) {
-                year = calendarDepart.get(Calendar.YEAR);
-                month = calendarDepart.get(Calendar.MONTH);
-                day = calendarDepart.get(Calendar.DAY_OF_MONTH);
+        if (textInput.getTag().toString().equals("departure")||
+        textInput.getTag().toString().equals("arrival") ||  textInput.getTag().toString().equals("checkIn") ||
+                textInput.getTag().toString().equals("checkOut")){
+            if (calendar1 != null) {
+                year = calendar1.get(Calendar.YEAR);
+                month = calendar1.get(Calendar.MONTH);
+                day = calendar1.get(Calendar.DAY_OF_MONTH);
             } else {
-                calendarDepart = Calendar.getInstance();
-                year = calendarDepart.get(Calendar.YEAR);
-                month = calendarDepart.get(Calendar.MONTH);
-                day = calendarDepart.get(Calendar.DAY_OF_MONTH);
+                calendar1 = Calendar.getInstance();
+                year = calendar1.get(Calendar.YEAR);
+                month = calendar1.get(Calendar.MONTH);
+                day = calendar1.get(Calendar.DAY_OF_MONTH);
             }
 
             //Date picker dialog
             datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-                    calendarDepart.set(year, month, dayOfMonth, 0, 0, 0);
-                    Date selectedDate = calendarDepart.getTime();
+                    calendar1.set(year, month, dayOfMonth, 0, 0, 0);
+                    Date selectedDate = calendar1.getTime();
 
                     DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN,Locale.ENGLISH);
                     dateFormatted = dateFormat.format(selectedDate);
@@ -62,23 +64,23 @@ public class DatePickerUtil {
         }
         //--------------------------------------Return------------------------------------
         else if (textInput.getHint().toString().toLowerCase().equals("return")) {
-            calendarReturn = Calendar.getInstance();
-            if (calendarDepart == null) {
-                year = calendarReturn.get(Calendar.YEAR);
-                month = calendarReturn.get(Calendar.MONTH);
-                day = calendarReturn.get(Calendar.DAY_OF_MONTH);
+            calendar2 = Calendar.getInstance();
+            if (calendar1 == null) {
+                year = calendar2.get(Calendar.YEAR);
+                month = calendar2.get(Calendar.MONTH);
+                day = calendar2.get(Calendar.DAY_OF_MONTH);
             } else {
-                year = calendarDepart.get(Calendar.YEAR);
-                month = calendarDepart.get(Calendar.MONTH);
-                day = calendarDepart.get(Calendar.DAY_OF_MONTH);
+                year = calendar1.get(Calendar.YEAR);
+                month = calendar1.get(Calendar.MONTH);
+                day = calendar1.get(Calendar.DAY_OF_MONTH);
             }
 
             //Date picker dialog
             datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
-                    calendarReturn.set(year, month, dayOfMonth, 0, 0, 0);
-                    Date selectedDate = calendarReturn.getTime();
+                    calendar2.set(year, month, dayOfMonth, 0, 0, 0);
+                    Date selectedDate = calendar2.getTime();
 
                     DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_PATTERN,Locale.ENGLISH);
                     dateFormatted = dateFormat.format(selectedDate);
@@ -93,8 +95,8 @@ public class DatePickerUtil {
 
     //Method to check if departure date is before return date, if not set error
     private void dateValidation(TextInputEditText textInputEditText) {
-        if (calendarReturn != null && calendarDepart != null) {
-            if (calendarReturn.getTime().before(calendarDepart.getTime())) {
+        if (calendar2 != null && calendar1 != null) {
+            if (calendar2.getTime().before(calendar1.getTime())) {
                 textInputEditText.setFocusableInTouchMode(true);
                 textInputEditText.requestFocus();
                 textInputEditText.setError("Invalid date");
@@ -112,30 +114,30 @@ public class DatePickerUtil {
 
     //Method to set minimum date on date picker dialog
     private void minMaxDatePicker(TextInputEditText textInputEditText) {
-        if (textInputEditText.getHint().equals("Return") && calendarDepart != null) {
-            datePickerDialog.getDatePicker().setMinDate(calendarDepart.getTimeInMillis());
+        if (textInputEditText.getHint().equals("Return") && calendar1 != null) {
+            datePickerDialog.getDatePicker().setMinDate(calendar1.getTimeInMillis());
         } else {
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         }
     }
 
     public void setCalendarDepart() {
-        calendarDepart = Calendar.getInstance();
-        year = calendarDepart.get(Calendar.YEAR);
-        month = calendarDepart.get(Calendar.MONTH);
-        day = calendarDepart.get(Calendar.DAY_OF_MONTH);
+        calendar1 = Calendar.getInstance();
+        year = calendar1.get(Calendar.YEAR);
+        month = calendar1.get(Calendar.MONTH);
+        day = calendar1.get(Calendar.DAY_OF_MONTH);
     }
 
     public void setCalendarReturn() {
-        calendarReturn = Calendar.getInstance();
-        if (calendarDepart == null) {
-            year = calendarReturn.get(Calendar.YEAR);
-            month = calendarReturn.get(Calendar.MONTH);
-            day = calendarReturn.get(Calendar.DAY_OF_MONTH);
+        calendar2 = Calendar.getInstance();
+        if (calendar1 == null) {
+            year = calendar2.get(Calendar.YEAR);
+            month = calendar2.get(Calendar.MONTH);
+            day = calendar2.get(Calendar.DAY_OF_MONTH);
         } else {
-            year = calendarDepart.get(Calendar.YEAR);
-            month = calendarDepart.get(Calendar.MONTH);
-            day = calendarDepart.get(Calendar.DAY_OF_MONTH);
+            year = calendar1.get(Calendar.YEAR);
+            month = calendar1.get(Calendar.MONTH);
+            day = calendar1.get(Calendar.DAY_OF_MONTH);
         }
     }
 }

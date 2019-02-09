@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/newTrip_destination"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp"
             android:tag="destination"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -62,8 +61,7 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/newTrip_departDate"
-            android:textColor="@color/colorPrimaryDark"
-            android:tag="departureDate"/>
+            android:tag="departure"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -76,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_depart"
         app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_depart"
         app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_depart"
-        android:tag="departureDate"
+        android:tag="departure"
         android:visibility="invisible"/>
 
 
@@ -87,7 +85,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTrip_textInputLayout_depart">
@@ -96,10 +93,10 @@
             android:id="@+id/newTrip_textInputEditText_returnDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/newTrip_returnDate"
-            android:textColor="@color/colorPrimaryDark"
-            android:tag="returnDate"/>
+            android:tag="return"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -113,6 +110,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/newTrip_textInputLayout_return"
         app:layout_constraintEnd_toEndOf="@+id/newTrip_textInputLayout_return"
         app:layout_constraintTop_toTopOf="@+id/newTrip_textInputLayout_return"
-        android:tag="returnDate"
+        android:tag="return"
         android:visibility="invisible"/>
 </android.support.constraint.ConstraintLayout>

@@ -92,8 +92,14 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             {
                 String lodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckInDate();
                 String prevLodgeCheckInDate = ((Lodging) tripDetailsArrayList.get(position-1)).getCheckInDate();
+                String lodgeCheckOutDate = ((Lodging) tripDetailsArrayList.get(position)).getCheckOutDate();
+                String prevLodgeCheckOutDate = ((Lodging) tripDetailsArrayList.get(position -1)).getCheckOutDate();
 
                 if(!lodgeCheckInDate.equals(prevLodgeCheckInDate))
+                {
+                    dateLayout.setVisibility(View.VISIBLE);
+                }
+                if(lodgeCheckInDate.equals(prevLodgeCheckInDate) && lodgeCheckOutDate.equals(prevLodgeCheckOutDate))
                 {
                     dateLayout.setVisibility(View.VISIBLE);
                 }
@@ -201,7 +207,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
             dateRow_textView.setText(flight.getDepartureDate());
             tripDetails_flight_departToArrival.setText(flight.getDepartureCityAirport()
                     + " to " + flight.getArrivalCityAirport());
-            tripDetails_flight_airline.setText(flight.getAirline()+" ("+flight.getFlightNumber()+")");
+            tripDetails_flight_airline.setText(flight.getAirline()+" "+flight.getFlightNumber());
             tripDetails_flight_departureTime.setText(flight.getDepartureTime());
             tripDetails_flight_departureTermGate.setText(flight.getDepartureTerminal()+" / "+flight.getDepartureGate());
             tripDetails_flight_arrivalTime.setText(flight.getArrivalTime());
@@ -210,20 +216,29 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class HotelViewHolder extends RecyclerView.ViewHolder {
-        TextView tripDetails_hotel_hotelName, tripDetails_hotel_hotelLocation;
+        TextView tripDetails_lodge_lodgeName, tripDetails_lodge_lodgeLocation, tripDetails_lodge_lodgeTime;
 
         public HotelViewHolder(@NonNull View itemView) {
             super(itemView);
             initDrawableViews(itemView);
 
             //Lodging
-            tripDetails_hotel_hotelName = itemView.findViewById(R.id.hotelRow_hotelName);
-            tripDetails_hotel_hotelLocation = itemView.findViewById(R.id.hotelRow_hotelLocation);
+            tripDetails_lodge_lodgeName = itemView.findViewById(R.id.lodgeRow_lodgeName);
+            tripDetails_lodge_lodgeLocation = itemView.findViewById(R.id.lodgeRow_lodgeLocation);
+            tripDetails_lodge_lodgeTime = itemView.findViewById(R.id.lodgeRow_lodgeTime);
         }
 
         public void populate(Lodging lodging) {
-            dateRow_textView.setText(lodging.getCheckInDate());
-            tripDetails_hotel_hotelName.setText(lodging.getLodgingName());
+            if(tripDetailsArrayList.contains(lodging.getLodgingName()))
+            {
+                dateRow_textView.setText(lodging.getCheckOutDate());
+            }else {
+                dateRow_textView.setText(lodging.getCheckInDate());
+                tripDetails_lodge_lodgeName.setText(lodging.getLodgingName());
+                tripDetails_lodge_lodgeLocation.setText(lodging.getLodgingLocation());
+                tripDetails_lodge_lodgeTime.setText(lodging.getCheckInTime());
+            }
+
         }
     }
 
