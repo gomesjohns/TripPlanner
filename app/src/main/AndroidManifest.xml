@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.john.trip">
+    package="com.example.john.tripPlanner">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,17 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NewLodgingActivity"></activity>
+        <activity android:name="tripPlanner.NewLodgingActivity"></activity>
         <activity
-            android:name=".ChecklistActivity"
+            android:name="tripPlanner.NewTripActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".NewTripActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".TripListActivity"
+            android:name="tripPlanner.TripListActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -33,11 +29,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TripDetailsActivity"
+            android:name="tripPlanner.TripDetailsActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".NewFlightActivity"></activity>
+        <activity android:name="tripPlanner.NewFlightActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -5,7 +5,7 @@
     android:id="@+id/newTripLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTripActivity">
+    tools:context="tripPlanner.NewTripActivity">
 
 
     <android.support.design.widget.TextInputLayout
