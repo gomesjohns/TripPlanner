@@ -12,7 +12,7 @@ import android.view.ViewManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.john.tripPlanner.R;
+import com.trip.planner.R;
 import com.trip.planner.model.Flight;
 import com.trip.planner.model.Lodging;
 import com.trip.planner.model.Trip;
@@ -66,7 +66,7 @@ public class TripDetailsRVAdapter extends RecyclerView.Adapter<RecyclerView.View
                 dateLayout.setVisibility(View.VISIBLE);
             }
             else {
-                ((ViewManager)dateLayout.getParent()).removeView(dateLayout);
+                dateLayout.setVisibility(View.GONE);
             }
         }
 

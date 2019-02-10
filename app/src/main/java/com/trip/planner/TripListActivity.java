@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.trip.planner.adapter.TripListRVAdapter;
 import com.trip.planner.model.Trip;
 
-import com.example.john.tripPlanner.R;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

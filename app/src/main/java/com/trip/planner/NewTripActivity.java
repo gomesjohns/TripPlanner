@@ -23,7 +23,6 @@ import com.trip.planner.helper.GooglePlaceApi;
 import com.trip.planner.helper.ClearButton;
 import com.trip.planner.model.Trip;
 
-import com.example.john.tripPlanner.R;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/lodgeRow_layout_lodgingName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -29,6 +30,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/lodgeRow_layout_lodgingLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -50,6 +52,7 @@
 
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/lodgeRow_layout_checkInDate"
                 android:layout_width="185dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -68,6 +71,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/lodgeRow_layout_checkInTime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -92,6 +96,7 @@
 
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/lodgeRow_layout_checkOutDate"
                 android:layout_width="185dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -110,6 +115,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/lodgeRow_layout_checkOutTime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"

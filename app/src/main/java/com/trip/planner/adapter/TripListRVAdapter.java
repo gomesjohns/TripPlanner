@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.trip.planner.R;
 import com.trip.planner.helper.TimeRemainingCalculation;
 import com.trip.planner.helper.TripImage;
 import com.trip.planner.model.SelectedTrip;
 import com.trip.planner.model.Trip;
-import com.example.john.tripPlanner.R;
 import com.trip.planner.TripDetailsActivity;
 import com.squareup.picasso.Picasso;
 

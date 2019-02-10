@@ -23,7 +23,6 @@ import com.trip.planner.model.Lodging;
 import com.trip.planner.model.SelectedTrip;
 import com.trip.planner.model.Trip;
 
-import com.example.john.tripPlanner.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +41,7 @@ import java.util.Comparator;
 public class TripDetailsActivity extends AppCompatActivity {
     //Global Vars
     private TextView toolbarTitle, toolbarDateRange;
-    private FloatingActionButton tripDetails_fabLodging, tripDetails_fabFlight;
+    private FloatingActionButton tripDetails_fabLodging, tripDetails_fabFlight, tripDetails_fabCar;
     private ImageView tripDetails_imageView_tripImage;
     private Toolbar toolbar;
     private TripDetailsRVAdapter tripDetailsRVAdapter;
@@ -124,6 +123,7 @@ public class TripDetailsActivity extends AppCompatActivity {
         tripDetails_imageView_tripImage = findViewById(R.id.tripDetails_tripImage);
         tripDetails_fabFlight = findViewById(R.id.tripDetails_fabFlight);
         tripDetails_fabLodging = findViewById(R.id.tripDetails_fabLodging);
+        tripDetails_fabCar = findViewById(R.id.tripDetails_fabCar);
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarDateRange = findViewById(R.id.toolbar_date_range);
         recyclerView = findViewById(R.id.tripDetails_RV);
@@ -159,6 +159,13 @@ public class TripDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(TripDetailsActivity.this, NewLodgingActivity.class);
+                myIntent(myIntent);
+            }
+        });
+        tripDetails_fabCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(TripDetailsActivity.this, NewCarActivity.class);
                 myIntent(myIntent);
             }
         });

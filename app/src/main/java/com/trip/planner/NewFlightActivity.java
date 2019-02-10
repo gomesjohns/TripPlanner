@@ -21,7 +21,6 @@ import com.trip.planner.helper.TimePickerUtil;
 import com.trip.planner.model.Flight;
 import com.trip.planner.model.SelectedTrip;
 
-import com.example.john.tripPlanner.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewFlightActivity extends AppCompatActivity {
-    private TextInputEditText departureDate, flightNumber, seats, confirmationNum,  departureTime, departureTerminal, departureGate,
+    private TextInputEditText departureDate, flightNumber, seats, confirmationNum, departureTime, departureTerminal, departureGate,
             arrivalDate, arrivalTime, arrivalTerminal, arrivalGate;
     private AutoCompleteTextView airlineAutoComplete, departureCityAirport, arrivalCityAirport;
     private Flight flight;
@@ -69,11 +68,9 @@ public class NewFlightActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
         //Init listeners
         initListeners();
-
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
     //----------------------------------------------------------------------------------------------
     //Override methods
     //----------------------------------------------------------------------------------------------
@@ -93,8 +90,7 @@ public class NewFlightActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem)
-    {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getTitle() != null) {
             if (menuItem.getTitle().equals("save")) {
                 addFlight();
@@ -127,11 +123,9 @@ public class NewFlightActivity extends AppCompatActivity {
     }
 
     //Get extras
-    private void getExtras()
-    {
+    private void getExtras() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
+        if (extras != null) {
             //Get
             myTrip = extras.getParcelable("tripObj");
         }
@@ -224,8 +218,7 @@ public class NewFlightActivity extends AppCompatActivity {
         airlineArrayList = new ArrayList<>();
         airlineArrayList = loadXml.xmlLoad(NewFlightActivity.this, R.raw.airline_list);
 
-        for(int i=0; i<airlineArrayList.size();i++)
-        {
+        for (int i = 0; i < airlineArrayList.size(); i++) {
             airlineNameList.add(airlineArrayList.get(i).trim());
         }
 
@@ -237,12 +230,11 @@ public class NewFlightActivity extends AppCompatActivity {
     //Set airport array adapter
     private void setAirportArrayAdapter() throws IOException, XmlPullParserException {
 
-        ArrayList<String> airportList =new ArrayList<>();
+        ArrayList<String> airportList = new ArrayList<>();
         airportArrayList = new ArrayList<>();
-        airportArrayList= loadXml.xmlLoad(NewFlightActivity.this, R.raw.airport_list);
+        airportArrayList = loadXml.xmlLoad(NewFlightActivity.this, R.raw.airport_list);
 
-        for(int i=0; i<airportArrayList.size();i++)
-        {
+        for (int i = 0; i < airportArrayList.size(); i++) {
             airportList.add(airportArrayList.get(i).trim());
         }
 
@@ -254,22 +246,21 @@ public class NewFlightActivity extends AppCompatActivity {
 
     //-------------------------------------Add flight to DB-----------------------------------------
     //Method to add flight to the database
-    private void addFlight()
-    {
-        String airline_text= airlineAutoComplete.getText().toString();
-        String flightNum_text= flightNumber.getText().toString();
-        String seats_text= seats.getText().toString();
-        String confirmationNum_text= confirmationNum.getText().toString();
-        String dCityAirport_text= departureCityAirport.getText().toString();
-        String dDate_text= departureDate.getText().toString();
-        String dTime_text= departureTime.getText().toString();
-        String dTerm_text= departureTerminal.getText().toString();
-        String dGate_text= departureGate.getText().toString();
-        String aCityAirport_text= arrivalCityAirport.getText().toString();
-        String aDate_text= arrivalDate.getText().toString();
-        String aTime_text= arrivalTime.getText().toString();
-        String aTerm_text= arrivalTerminal.getText().toString();
-        String aGate_text= arrivalGate.getText().toString();
+    private void addFlight() {
+        String airline_text = airlineAutoComplete.getText().toString();
+        String flightNum_text = flightNumber.getText().toString();
+        String seats_text = seats.getText().toString();
+        String confirmationNum_text = confirmationNum.getText().toString();
+        String dCityAirport_text = departureCityAirport.getText().toString();
+        String dDate_text = departureDate.getText().toString();
+        String dTime_text = departureTime.getText().toString();
+        String dTerm_text = departureTerminal.getText().toString();
+        String dGate_text = departureGate.getText().toString();
+        String aCityAirport_text = arrivalCityAirport.getText().toString();
+        String aDate_text = arrivalDate.getText().toString();
+        String aTime_text = arrivalTime.getText().toString();
+        String aTerm_text = arrivalTerminal.getText().toString();
+        String aGate_text = arrivalGate.getText().toString();
 
         inputValidation.setErrorCount();
         inputValidation.validateInputAutoComplete(airlineAutoComplete, airline_text);
@@ -281,9 +272,9 @@ public class NewFlightActivity extends AppCompatActivity {
         inputValidation.validateTextViewInput(arrivalDate, aDate_text);
         inputValidation.validateTextViewInput(arrivalTime, aTime_text);
 
-        if(inputValidation.getErrorCount() ==0) {
+        if (inputValidation.getErrorCount() == 0) {
             String id = databaseReference.push().getKey();
-            flight = new Flight(id,airline_text, flightNum_text, seats_text, confirmationNum_text
+            flight = new Flight(id, airline_text, flightNum_text, seats_text, confirmationNum_text
                     , dCityAirport_text, dDate_text, dTime_text, dTerm_text, dGate_text, aCityAirport_text,
                     aDate_text, aTime_text, aTerm_text, aGate_text);
 

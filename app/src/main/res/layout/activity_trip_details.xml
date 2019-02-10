@@ -70,6 +70,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/tripDetails_fabCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_car_light"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_hideAnimation="@anim/fab_scale_down"
+            app:fab_label="Car"
+            app:fab_showAnimation="@anim/fab_scale_up"
+            app:fab_size="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </com.github.clans.fab.FloatingActionMenu>
 
     <ImageView

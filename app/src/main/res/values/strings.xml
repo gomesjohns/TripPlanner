@@ -42,5 +42,6 @@
     <string name="newCar_date">Date</string>
     <string name="newCar_time">Time</string>
     <string name="newCar_notes">Notes</string>
+    <string name="newCar_dropOffSameAsPickup">Drop-off location same as pick-up</string>
 
 </resources>

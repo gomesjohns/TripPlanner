@@ -1,13 +1,21 @@
 package com.trip.planner;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.trip.planner.helper.CloseKeyboard;
@@ -18,14 +26,16 @@ import com.trip.planner.helper.TimePickerUtil;
 import com.trip.planner.model.Lodging;
 import com.trip.planner.model.SelectedTrip;
 
-import com.example.john.tripPlanner.R;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class NewLodgingActivity extends AppCompatActivity {
 
     private TextInputEditText checkInDate, checkInTime, checkOutDate, checkOutTime;
+    private TextInputLayout layoutName, layoutLocation, layoutCheckInDate, layoutCheckInTime, layoutCheckOutDate, layoutCheckOutTime;
     private AutoCompleteTextView lodgingName, lodgingLocation;
     private DatabaseReference databaseReference;
     private Lodging lodging;
@@ -95,6 +105,41 @@ public class NewLodgingActivity extends AppCompatActivity {
         checkInTime = findViewById(R.id.addLodging_textInputEditText_checkInTime);
         checkOutDate = findViewById(R.id.addLodging_textInputEditText_checkOutDate);
         checkOutTime = findViewById(R.id.addLodging_textInputEditText_checkOutTime);
+
+        layoutName= findViewById(R.id.lodgeRow_layout_lodgingName);
+        layoutLocation= findViewById(R.id.lodgeRow_layout_lodgingLocation);
+        layoutCheckInDate= findViewById(R.id.lodgeRow_layout_checkInDate);
+        layoutCheckInTime= findViewById(R.id.lodgeRow_layout_checkInTime);
+        layoutCheckOutDate= findViewById(R.id.lodgeRow_layout_checkOutDate);
+        layoutCheckOutTime= findViewById(R.id.lodgeRow_layout_checkOutTime);
+
+
+        ArrayList<TextInputLayout> viewList = new ArrayList<>();
+        viewList.add(layoutName);
+        viewList.add(layoutLocation);
+        viewList.add(layoutCheckInDate);
+        viewList.add(layoutCheckInTime);
+        viewList.add(layoutCheckOutDate);
+        viewList.add(layoutCheckOutTime);
+
+        for(int i=0; i<viewList.size(); i++)
+        {
+            Button mButton= new Button(NewLodgingActivity.this);
+            mButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_clear_text,0,0,0);
+            mButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+            LinearLayout.LayoutParams btnParam= new LinearLayout.LayoutParams(70, 70);
+            //RelativeLayout.LayoutParams btnP = new RelativeLayout.LayoutParams(100, 100);
+            btnParam.gravity = Gravity.RIGHT;
+
+            btnParam.setMargins(0,-140,50,0);
+            //btnP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            //btnP.addRule(RelativeLayout.ALIGN_END);
+            //btnP.addRule(RelativeLayout.);
+            mButton.setLayoutParams(btnParam);
+            viewList.get(i).addView(mButton);
+
+        }
+
     }
 
     private void initHelpers()

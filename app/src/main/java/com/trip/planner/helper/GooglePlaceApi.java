@@ -41,7 +41,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     ClearText clearText;
     ClearButton clearButton;
 
-    final private AutoCompleteTextView autoCompleteTextView;
+    private AutoCompleteTextView autoCompleteTextView, autoCompleteTextView1;
     private Context context;
     private Activity activity;
     private ArrayList<Button> buttonArrayList;
@@ -69,6 +69,18 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
         initGoogleApi();
     }
 
+    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView,
+            AutoCompleteTextView autoCompleteTextView1, int filter)
+    {
+        this.context = context;
+        this.activity = activity;
+        this.autoCompleteTextView = autoCompleteTextView;
+        this.autoCompleteTextView1 = autoCompleteTextView1;
+        this.filter = filter;
+        initHelperClasses();
+        initGoogleApi();
+    }
+
 
     public void initHelperClasses()
     {
@@ -90,8 +102,18 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
                 .build();
 
         autoCompleteTextView.setOnItemClickListener(clickListener);
+        if(autoCompleteTextView1!=null)
+        {
+            autoCompleteTextView1.setOnItemClickListener(clickListener);
+        }
+
         placeListAdapter = new PlaceListAdapter(context, android.R.layout.simple_expandable_list_item_1, BOUNDS_MOUNTAIN_VIEW, typeFilter);
         autoCompleteTextView.setAdapter(placeListAdapter);
+        if(autoCompleteTextView1!=null)
+        {
+            autoCompleteTextView1.setAdapter(placeListAdapter);
+        }
+
         return placeListAdapter;
     }
 
@@ -107,7 +129,7 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
             //If you want to trim place name do it here
 
             closeKeyboardHelper.close(activity, view);
-            clearButton.showBtn(autoCompleteTextView.getTag().toString());
+            //clearButton.showBtn(autoCompleteTextView.getTag().toString());
         }
     };
 
