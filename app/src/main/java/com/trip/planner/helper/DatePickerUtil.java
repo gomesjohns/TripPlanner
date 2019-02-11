@@ -99,7 +99,7 @@ public class DatePickerUtil {
                 textInputEditText.requestFocus();
                 textInputEditText.setError("Invalid date");
                 clearText= new ClearText();
-                clearText.clear(textInputEditText.getTag().toString(), textInputEditText);
+                //clearText.clear(textInputEditText.getTag().toString(), textInputEditText);
             } else {
                 textInputEditText.setText(dateFormatted);
                 textInputEditText.setError(null);

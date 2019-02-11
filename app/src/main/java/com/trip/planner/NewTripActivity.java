@@ -190,7 +190,7 @@ public class NewTripActivity extends AppCompatActivity {
 
 
         //Loop to clear text of textviews from button clicked
-        for(int i=0; i<buttonArrayList.size();i++)
+       /* for(int i=0; i<buttonArrayList.size();i++)
         {
             final int finalI = i;
             buttonArrayList.get(i).setOnClickListener(new View.OnClickListener() {
@@ -202,7 +202,7 @@ public class NewTripActivity extends AppCompatActivity {
                    clearButton.hideBtn(buttonArrayList.get(finalI).getTag().toString());//hide btn
                 }
             });
-        }
+        }*/
 
     }
 

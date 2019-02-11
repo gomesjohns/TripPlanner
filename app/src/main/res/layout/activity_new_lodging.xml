@@ -20,13 +20,15 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:tag="lodgingName">
 
             <AutoCompleteTextView
                 android:id="@+id/addLodging_autoCompleteTextView_searchLodging"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/newLodging_lodgingName" />
+                android:hint="@string/newLodging_lodgingName"
+                android:tag="lodgingName"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -35,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/margin_top"
-            android:layout_marginEnd="8dp">
+            android:layout_marginEnd="8dp"
+            android:tag="location">
 
             <AutoCompleteTextView
                 android:id="@+id/addLodging_textInputAutoComplete_location"
@@ -57,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="checkInDate">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/addLodging_textInputEditText_checkInDate"
@@ -66,7 +70,7 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/newLodging_checkInDate"
-                    android:tag="checkIn"/>
+                    android:tag="checkInDate"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +80,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="checkInTime">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/addLodging_textInputEditText_checkInTime"
@@ -85,7 +90,7 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/newLodging_checkInTime"
-                    android:tag="checkIn"/>
+                    android:tag="checkInTime"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -101,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="checkOutDate">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/addLodging_textInputEditText_checkOutDate"
@@ -110,7 +116,7 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/newLodging_checkOutDate"
-                    android:tag="checkIn"/>
+                    android:tag="checkOutDate"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -120,7 +126,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="checkOutTime">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/addLodging_textInputEditText_checkOutTime"
@@ -129,7 +136,7 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/newLodging_checkOutTime"
-                    android:tag="checkOut"/>
+                    android:tag="checkOutTime"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </LinearLayout>

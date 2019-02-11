@@ -7,6 +7,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.trip.planner.helper.ClearButton;
 import com.trip.planner.helper.CloseKeyboard;
 import com.trip.planner.helper.DatePickerUtil;
 import com.trip.planner.helper.GooglePlaceApi;
@@ -44,6 +47,8 @@ public class NewLodgingActivity extends AppCompatActivity {
     private DatePickerUtil datePickerUtil;
     private TimePickerUtil timePickerUtil;
     private CloseKeyboard closeKeyboardHelper;
+    private ArrayList<Button> clearButtonArrayList;
+    private ClearButton clearButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class NewLodgingActivity extends AppCompatActivity {
         getExtras();
         //Init db
         databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
+        //Generate clear buttons
+        generateClearBtn();
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -112,34 +119,6 @@ public class NewLodgingActivity extends AppCompatActivity {
         layoutCheckInTime= findViewById(R.id.lodgeRow_layout_checkInTime);
         layoutCheckOutDate= findViewById(R.id.lodgeRow_layout_checkOutDate);
         layoutCheckOutTime= findViewById(R.id.lodgeRow_layout_checkOutTime);
-
-
-        ArrayList<TextInputLayout> viewList = new ArrayList<>();
-        viewList.add(layoutName);
-        viewList.add(layoutLocation);
-        viewList.add(layoutCheckInDate);
-        viewList.add(layoutCheckInTime);
-        viewList.add(layoutCheckOutDate);
-        viewList.add(layoutCheckOutTime);
-
-        for(int i=0; i<viewList.size(); i++)
-        {
-            Button mButton= new Button(NewLodgingActivity.this);
-            mButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_clear_text,0,0,0);
-            mButton.setBackgroundColor(getResources().getColor(R.color.transparent));
-            LinearLayout.LayoutParams btnParam= new LinearLayout.LayoutParams(70, 70);
-            //RelativeLayout.LayoutParams btnP = new RelativeLayout.LayoutParams(100, 100);
-            btnParam.gravity = Gravity.RIGHT;
-
-            btnParam.setMargins(0,-140,50,0);
-            //btnP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            //btnP.addRule(RelativeLayout.ALIGN_END);
-            //btnP.addRule(RelativeLayout.);
-            mButton.setLayoutParams(btnParam);
-            viewList.get(i).addView(mButton);
-
-        }
-
     }
 
     private void initHelpers()
@@ -148,19 +127,69 @@ public class NewLodgingActivity extends AppCompatActivity {
         datePickerUtil = new DatePickerUtil();
         timePickerUtil = new TimePickerUtil();
         inputValidation = new InputValidation();
+        clearButton = new ClearButton();
         timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkInTime);
         timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkOutTime);
+
         new GooglePlaceApi(this, NewLodgingActivity.this, lodgingLocation, AutocompleteFilter.TYPE_FILTER_ADDRESS); //Init Google Place Api
     }
 
 
     private void initListeners()
     {
+        lodgingName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearButton.showBtn(lodgingName.getTag().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        lodgingLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearButton.showBtn(lodgingLocation.getTag().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         checkInDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewLodgingActivity.this, v);
                 datePickerUtil.datePickerDialog(NewLodgingActivity.this, checkInDate);
+                checkInDate.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(checkInDate.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
         checkOutDate.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +197,22 @@ public class NewLodgingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewLodgingActivity.this, v);
                 datePickerUtil.datePickerDialog(NewLodgingActivity.this, checkOutDate);
+                checkOutDate.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(checkOutDate.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
         checkInTime.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +220,22 @@ public class NewLodgingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewLodgingActivity.this, v);
                 timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkInTime);
+                checkInTime.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(checkInTime.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
         checkOutTime.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +243,38 @@ public class NewLodgingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewLodgingActivity.this, v);
                 timePickerUtil.timePickerDialog(NewLodgingActivity.this, checkOutTime);
+                checkOutTime.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(checkOutTime.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
+    }
+
+    //Generate clear text button
+    private void generateClearBtn()
+    {
+        ArrayList<TextInputLayout> inputLayoutList = new ArrayList<>();
+        inputLayoutList.add(layoutName);
+        inputLayoutList.add(layoutLocation);
+        inputLayoutList.add(layoutCheckInDate);
+        inputLayoutList.add(layoutCheckInTime);
+        inputLayoutList.add(layoutCheckOutDate);
+        inputLayoutList.add(layoutCheckOutTime);
+
+        clearButton.generateButtons(NewLodgingActivity.this, inputLayoutList);
     }
 
     //Get extras
