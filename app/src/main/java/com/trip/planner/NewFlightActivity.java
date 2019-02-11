@@ -2,6 +2,7 @@ package com.trip.planner;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import com.trip.planner.helper.ClearButton;
 import com.trip.planner.helper.CloseKeyboard;
 import com.trip.planner.helper.DatePickerUtil;
 import com.trip.planner.helper.InputValidation;
@@ -30,6 +32,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewFlightActivity extends AppCompatActivity {
+    private TextInputLayout airlineNameLayout, flightNumLayout, seatLayout, confirmationNumLayout,
+    departureCityAirportLayout, departureDateLayout, departureTimeLayout, departureTermLayout,
+    departureGateLayout,arrivalCityAirportLayout, arrivalDateLayout, arrivalTimeLayout, arrivalTermLayout,
+            arrivalGateLayout;
     private TextInputEditText departureDate, flightNumber, seats, confirmationNum, departureTime, departureTerminal, departureGate,
             arrivalDate, arrivalTime, arrivalTerminal, arrivalGate;
     private AutoCompleteTextView airlineAutoComplete, departureCityAirport, arrivalCityAirport;
@@ -43,6 +49,7 @@ public class NewFlightActivity extends AppCompatActivity {
     private ArrayList<String> airlineArrayList;
     private ArrayList<String> airportArrayList;
     private LoadXml loadXml;
+    private ClearButton clearButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +72,11 @@ public class NewFlightActivity extends AppCompatActivity {
         //Ger extras
         getExtras();
         //Init Db
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
+        databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_REFERENCE);
         //Init listeners
         initListeners();
+        //Generate clear buttons
+        generateClearBtn();
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -104,22 +113,36 @@ public class NewFlightActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------
     //Initialize views
     private void initViews() {
+        //Views
         airlineAutoComplete = findViewById(R.id.addFlight_textInputAutocomplete_airline);
         flightNumber = findViewById(R.id.addFlight_textInputEditText_flightNumber);
         seats = findViewById(R.id.addFlight_textInputEditText_seats);
         confirmationNum = findViewById(R.id.addFlight_textInputEditText_confirmationNum);
-        //Departure
         departureCityAirport = findViewById(R.id.addFlight_textInputAutocomplete_departureCityAirport);
         departureDate = findViewById(R.id.addFlight_textInputEditText_departureDate);
         departureTime = findViewById(R.id.addFlight_textInputEditText_departureTime);
         departureTerminal = findViewById(R.id.addFlight_textInputEditText_departureTerminal);
         departureGate = findViewById(R.id.addFlight_textInputEditText_departureGate);
-        //Arrival
         arrivalCityAirport = findViewById(R.id.addFlight_textInputAutocomplete_arrivalCityAirport);
         arrivalDate = findViewById(R.id.addFlight_textInputEditText_arrivalDate);
         arrivalTime = findViewById(R.id.addFlight_textInputEditText_arrivalTime);
         arrivalTerminal = findViewById(R.id.addFlight_textInputEditText_arrivalTerminal);
         arrivalGate = findViewById(R.id.addFlight_textInputEditText_arrivalGate);
+        //Layout
+        airlineNameLayout =findViewById(R.id.addFlight_textInputLayout_airline);
+        flightNumLayout = findViewById(R.id.addFlight_textInputLayout_flightNumber);
+        seatLayout = findViewById(R.id.addFlight_textInputLayout_seats);
+        confirmationNumLayout = findViewById(R.id.addFlight_textInputLayout_confirmationNum);
+        departureCityAirportLayout = findViewById(R.id.addFlight_textInputLayout_departureCityAirport);
+        departureDateLayout = findViewById(R.id.addFlight_textInputLayout_departureDate);
+        departureTimeLayout = findViewById(R.id.addFlight_textInputLayout_departureTime);
+        departureTermLayout = findViewById(R.id.addFlight_textInputLayout_departureTerminal);
+        departureGateLayout = findViewById(R.id.addFlight_textInputLayout_departureGate);
+        arrivalCityAirportLayout = findViewById(R.id.addFlight_textInputLayout_arrivalCityAirport);
+        arrivalDateLayout = findViewById(R.id.addFlight_textInputLayout_arrivalDate);
+        arrivalTimeLayout = findViewById(R.id.addFlight_textInputLayout_arrivalTime);
+        arrivalTermLayout = findViewById(R.id.addFlight_textInputLayout_arrivalTerminal);
+        arrivalGateLayout = findViewById(R.id.addFlight_textInputLayout_arrivalGate);
     }
 
     //Get extras
@@ -137,11 +160,64 @@ public class NewFlightActivity extends AppCompatActivity {
         datePickerUtil = new DatePickerUtil();
         timePickerUtil = new TimePickerUtil();
         inputValidation = new InputValidation();
+        clearButton = new ClearButton();
         loadXml = new LoadXml();
     }
 
     //Listeners
     private void initListeners() {
+        final ArrayList<View> listenerList = new ArrayList<>();
+        listenerList.add(airlineAutoComplete);
+        listenerList.add(flightNumber);
+        listenerList.add(seats);
+        listenerList.add(confirmationNum);
+        listenerList.add(departureCityAirport);
+        listenerList.add(departureTerminal);
+        listenerList.add(departureGate);
+        listenerList.add(arrivalCityAirport);
+        listenerList.add(arrivalTerminal);
+        listenerList.add(arrivalGate);
+
+        for(int i=0; i<listenerList.size(); i++)
+        {
+            final int finalI = i;
+            if(listenerList.get(i) instanceof AutoCompleteTextView)
+            {
+                ((AutoCompleteTextView)listenerList.get(i)).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(listenerList.get(finalI).getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            }else{
+                ((TextInputEditText)listenerList.get(i)).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(listenerList.get(finalI).getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            }
+        }
         //Date pickers
         departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +234,7 @@ public class NewFlightActivity extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        //showClearButton.showBtn(departureDate.getHint().toString().toLowerCase());
+                        clearButton.showBtn(departureDate.getTag().toString());
                     }
 
                     @Override
@@ -183,7 +259,7 @@ public class NewFlightActivity extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        //showClearButton.showBtn(departureDate.getHint().toString().toLowerCase());
+                        clearButton.showBtn(arrivalDate.getTag().toString());
                     }
 
                     @Override
@@ -199,6 +275,22 @@ public class NewFlightActivity extends AppCompatActivity {
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewFlightActivity.this, v);
                 timePickerUtil.timePickerDialog(NewFlightActivity.this, departureTime);
+                departureTime.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(departureTime.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
         arrivalTime.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +298,47 @@ public class NewFlightActivity extends AppCompatActivity {
             public void onClick(View v) {
                 closeKeyboardHelper.close(NewFlightActivity.this, v);
                 timePickerUtil.timePickerDialog(NewFlightActivity.this, arrivalTime);
+                arrivalTime.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        clearButton.showBtn(arrivalTime.getTag().toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
             }
         });
+    }
+
+    //Generate clear text button
+    private void generateClearBtn()
+    {
+        ArrayList<TextInputLayout> inputLayoutList = new ArrayList<>();
+        inputLayoutList.add(airlineNameLayout);
+        inputLayoutList.add(flightNumLayout);
+        inputLayoutList.add(seatLayout);
+        inputLayoutList.add(confirmationNumLayout);
+        inputLayoutList.add(departureCityAirportLayout);
+        inputLayoutList.add(departureDateLayout);
+        inputLayoutList.add(departureTimeLayout);
+        inputLayoutList.add(departureTermLayout);
+        inputLayoutList.add(departureGateLayout);
+        inputLayoutList.add(arrivalCityAirportLayout);
+        inputLayoutList.add(arrivalDateLayout);
+        inputLayoutList.add(arrivalTimeLayout);
+        inputLayoutList.add(arrivalTermLayout);
+        inputLayoutList.add(arrivalGateLayout);
+
+
+        clearButton.generateButtons(NewFlightActivity.this, inputLayoutList);
     }
 
     //-------------------------------Load airport/airline list XML----------------------------------

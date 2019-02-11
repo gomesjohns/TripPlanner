@@ -21,7 +21,7 @@ public class DatePickerUtil {
     private int day;
     private DatePickerDialog datePickerDialog;
     public String dateFormatted;
-    ClearText clearText;
+    //ClearText clearText;
 
     //Constructor
     public DatePickerUtil() {
@@ -30,9 +30,12 @@ public class DatePickerUtil {
 
     public void datePickerDialog(Context context, final TextInputEditText textInput) {
         //--------------------------------------Departure------------------------------------
-        if (textInput.getTag().toString().equals("departure")||
-        textInput.getTag().toString().equals("arrival") ||  textInput.getTag().toString().equals("checkIn") ||
-                textInput.getTag().toString().equals("checkOut")){
+        if (textInput.getTag().toString().equals("departureDate")||
+            textInput.getTag().toString().equals("arrivalDate") ||
+            textInput.getTag().toString().equals("checkInDate") ||
+            textInput.getTag().toString().equals("checkOutDate")||
+            textInput.getTag().toString().equals("pickUpDate")||
+            textInput.getTag().toString().equals("dropOffDate")){
             if (calendar1 != null) {
                 year = calendar1.get(Calendar.YEAR);
                 month = calendar1.get(Calendar.MONTH);
@@ -98,7 +101,7 @@ public class DatePickerUtil {
                 textInputEditText.setFocusableInTouchMode(true);
                 textInputEditText.requestFocus();
                 textInputEditText.setError("Invalid date");
-                clearText= new ClearText();
+                //clearText= new ClearText();
                 //clearText.clear(textInputEditText.getTag().toString(), textInputEditText);
             } else {
                 textInputEditText.setText(dateFormatted);

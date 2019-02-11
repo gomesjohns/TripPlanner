@@ -1,23 +1,17 @@
 package com.trip.planner;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.trip.planner.helper.ClearButton;
@@ -47,7 +41,6 @@ public class NewLodgingActivity extends AppCompatActivity {
     private DatePickerUtil datePickerUtil;
     private TimePickerUtil timePickerUtil;
     private CloseKeyboard closeKeyboardHelper;
-    private ArrayList<Button> clearButtonArrayList;
     private ClearButton clearButton;
 
     @Override
@@ -64,7 +57,7 @@ public class NewLodgingActivity extends AppCompatActivity {
         //Get extras
         getExtras();
         //Init db
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
+        databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_REFERENCE);
         //Generate clear buttons
         generateClearBtn();
         //Back button
@@ -134,7 +127,6 @@ public class NewLodgingActivity extends AppCompatActivity {
         new GooglePlaceApi(this, NewLodgingActivity.this, lodgingLocation, AutocompleteFilter.TYPE_FILTER_ADDRESS); //Init Google Place Api
     }
 
-
     private void initListeners()
     {
         lodgingName.addTextChangedListener(new TextWatcher() {
@@ -142,15 +134,12 @@ public class NewLodgingActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 clearButton.showBtn(lodgingName.getTag().toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         lodgingLocation.addTextChangedListener(new TextWatcher() {

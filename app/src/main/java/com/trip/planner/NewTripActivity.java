@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,7 +17,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.trip.planner.helper.ClearText;
 import com.trip.planner.helper.CloseKeyboard;
 import com.trip.planner.helper.DatePickerUtil;
 import com.trip.planner.helper.GooglePlaceApi;
@@ -31,16 +31,14 @@ import java.util.ArrayList;
 
 public class NewTripActivity extends AppCompatActivity {
     //Global Variables
-    public static AutoCompleteTextView destinationAutocomplete;
-    public static Button buttonClearText1, buttonClearText2, buttonClearText3;
+    private AutoCompleteTextView destinationAutocomplete;
+    private TextInputLayout destinationlayout, departureLayout, returnLayout;
     private TextInputEditText departureDate, returnDate;
     private ConstraintLayout newTripLayout;
     private DatabaseReference databaseReference;
     private DatePickerUtil datePickerUtil;
     private CloseKeyboard closeKeyboardHelper;
     private ClearButton clearButton;
-    private ClearText clearText;
-    private ArrayList<Button> buttonArrayList;
     private ArrayList<Object> textViewArrayList;
 
     @Override
@@ -48,49 +46,23 @@ public class NewTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
 
-        //Init views, database, helper classes, place api, and listeners
-        initViews();//Init views and database
-        initHelperClasses();//Init helper classes
-        initListeners();//Init listeners
-
+        //Init views
+        initViews();
+        //Init helpers
+        initHelpers();
+        //Init listeners
+        initListeners();
+        //Generate clear buttons
+        generateClearBtn();
+        //Init db
+        databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_REFERENCE);
         //Back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    //Init views
-    private void initViews() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("TripDatabase");
-
-        destinationAutocomplete = findViewById(R.id.newTrip_autoCompleteTextView_destination);
-        departureDate = findViewById(R.id.newTrip_textInputEditText_departureDate);
-        returnDate = findViewById(R.id.newTrip_textInputEditText_returnDate);
-        textViewArrayList = new ArrayList<>();
-        textViewArrayList.add(destinationAutocomplete);
-        textViewArrayList.add(departureDate);
-        textViewArrayList.add(returnDate);
-
-        buttonClearText1 = findViewById(R.id.newTrip_autoCompleteTextView_destination_clearBtn);
-        buttonClearText2 = findViewById(R.id.newTrip_textInputLayout_depart_clearBtn);
-        buttonClearText3 = findViewById(R.id.newTrip_textInputLayout_return_clearBtn);
-
-        buttonArrayList= new ArrayList<>();
-        buttonArrayList.add(buttonClearText1);
-        buttonArrayList.add(buttonClearText2);
-        buttonArrayList.add(buttonClearText3);
-
-        newTripLayout = findViewById(R.id.newTripLayout);
-    }
-
-    //Init all the helper classes
-    private void initHelperClasses() {
-        datePickerUtil = new DatePickerUtil();
-        closeKeyboardHelper = new CloseKeyboard();
-        clearText = new ClearText();
-        //clearButton = new ClearButton(buttonArrayList);
-        new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete,
-                buttonArrayList, AutocompleteFilter.TYPE_FILTER_REGIONS); //Init Google Place Api
-    }
-
+    //----------------------------------------------------------------------------------------------
+    //Override methods
+    //----------------------------------------------------------------------------------------------
     //Action bar menu for adding new trip
     @Override //Create save trip menu from XML
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,6 +84,35 @@ public class NewTripActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         startTripListActivity();//Start TripListActivity
         return true;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    //Private methods
+    //----------------------------------------------------------------------------------------------
+    //Init views
+    private void initViews() {
+        destinationAutocomplete = findViewById(R.id.newTrip_autoCompleteTextView_destination);
+        departureDate = findViewById(R.id.newTrip_textInputEditText_departureDate);
+        returnDate = findViewById(R.id.newTrip_textInputEditText_returnDate);
+
+        destinationlayout= findViewById(R.id.newTrip_textInputLayout_destination);
+        departureLayout = findViewById(R.id.newTrip_textInputLayout_depart);
+        returnLayout = findViewById(R.id.newTrip_textInputLayout_return);
+
+        textViewArrayList = new ArrayList<>();
+        textViewArrayList.add(destinationAutocomplete);
+        textViewArrayList.add(departureDate);
+        textViewArrayList.add(returnDate);
+        newTripLayout = findViewById(R.id.newTripLayout);
+    }
+
+    //Init all the helper classes
+    private void initHelpers() {
+        datePickerUtil = new DatePickerUtil();
+        closeKeyboardHelper = new CloseKeyboard();
+        clearButton = new ClearButton();
+        new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete
+                , AutocompleteFilter.TYPE_FILTER_REGIONS); //Init Google Place Api
     }
 
     //Init listeners
@@ -179,7 +180,6 @@ public class NewTripActivity extends AppCompatActivity {
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         clearButton.showBtn(returnDate.getTag().toString());
                     }
-
                     @Override
                     public void afterTextChanged(Editable s) {
 
@@ -188,22 +188,18 @@ public class NewTripActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-        //Loop to clear text of textviews from button clicked
-       /* for(int i=0; i<buttonArrayList.size();i++)
-        {
-            final int finalI = i;
-            buttonArrayList.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), destinationAutocomplete);
-                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), departureDate);
-                   clearText.clear(buttonArrayList.get(finalI).getTag().toString(), returnDate);
-                   clearButton.hideBtn(buttonArrayList.get(finalI).getTag().toString());//hide btn
-                }
-            });
-        }*/
+    //Generate clear text button
+    private void generateClearBtn()
+    {
+        ArrayList<TextInputLayout> inputLayoutList = new ArrayList<>();
+        inputLayoutList.add(destinationlayout);
+        inputLayoutList.add(departureLayout);
+        inputLayoutList.add(returnLayout);
 
+
+        clearButton.generateButtons(NewTripActivity.this, inputLayoutList);
     }
 
     //Start Trip List Activity

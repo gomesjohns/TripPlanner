@@ -38,26 +38,13 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(new LatLng(0, -0), new LatLng(0, -0));
 
     CloseKeyboard closeKeyboardHelper;
-    ClearText clearText;
     ClearButton clearButton;
 
     private AutoCompleteTextView autoCompleteTextView, autoCompleteTextView1;
     private Context context;
     private Activity activity;
-    private ArrayList<Button> buttonArrayList;
 
 
-    public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView,
-                          ArrayList<Button> buttonArrayList, int filter)
-    {
-        this.context = context;
-        this.activity = activity;
-        this.autoCompleteTextView = autoCompleteTextView;
-        this.buttonArrayList = buttonArrayList;
-        this.filter = filter;
-        initHelperClasses();
-        initGoogleApi();
-    }
 
     public GooglePlaceApi(Context context, Activity activity, AutoCompleteTextView autoCompleteTextView, int filter)
     {
@@ -85,8 +72,6 @@ public class GooglePlaceApi implements GoogleApiClient.OnConnectionFailedListene
     public void initHelperClasses()
     {
         closeKeyboardHelper = new CloseKeyboard();
-        clearText= new ClearText();
-        //clearButton = new ClearButton(buttonArrayList);
     }
 
     //Initializes google place api

@@ -16,32 +16,38 @@
             android:orientation="vertical" >
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/addFlight_textInputLayout_airline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_extra"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="airlineName">
 
                 <AutoCompleteTextView
                     android:id="@+id/addFlight_textInputAutocomplete_airline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newFlight_airline" />
+                    android:hint="@string/newFlight_airline"
+                    android:tag="airlineName"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/addFlight_textInputLayout_flightNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:tag="flightNum">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/addFlight_textInputEditText_flightNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newFlight_flightNum"/>
+                    android:hint="@string/newFlight_flightNum"
+                    android:tag="flightNum"/>
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -50,32 +56,38 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_seats"
                     android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="seat">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_seats"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_seats"/>
+                        android:hint="@string/newFlight_seats"
+                        android:tag="seat"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_confirmationNum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="confirmationNum">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_confirmationNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/confirmation" />
+                        android:hint="@string/confirmation"
+                        android:tag="confirmationNum"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -96,17 +108,20 @@
                 android:textAllCaps="true" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/addFlight_textInputLayout_departureCityAirport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginTop="@dimen/margin_extra"
+                android:layout_marginEnd="8dp"
+                android:tag="departureCityAirport">
 
                 <AutoCompleteTextView
                     android:id="@+id/addFlight_textInputAutocomplete_departureCityAirport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newFlight_departureCityAirport" />
+                    android:hint="@string/newFlight_departureCityAirport"
+                    android:tag="departureCityAirport"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -117,11 +132,13 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_departureDate"
                     android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="departureDate">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_departureDate"
@@ -130,16 +147,18 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:hint="@string/newFlight_departureDate"
-                        android:tag="departure"/>
+                        android:tag="departureDate"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_departureTime"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="departureTime">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_departureTime"
@@ -158,32 +177,38 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_departureTerminal"
                     android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="departureTerminal">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_departureTerminal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_departureTerm" />
+                        android:hint="@string/newFlight_departureTerm"
+                        android:tag="departureTerminal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_departureGate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="departureGate">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_departureGate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_departureGate" />
+                        android:hint="@string/newFlight_departureGate"
+                        android:tag="departureGate"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -204,17 +229,20 @@
                 android:textAllCaps="true" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/addFlight_textInputLayout_arrivalCityAirport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/margin_top"
-                android:layout_marginEnd="8dp">
+                android:layout_marginTop="@dimen/margin_extra"
+                android:layout_marginEnd="8dp"
+                android:tag="arrivalCityAirport">
 
                 <AutoCompleteTextView
                     android:id="@+id/addFlight_textInputAutocomplete_arrivalCityAirport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/newFlight_arrivalCityAirport" />
+                    android:hint="@string/newFlight_arrivalCityAirport"
+                    android:tag="arrivalCityAirport"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -224,11 +252,13 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_arrivalDate"
                     android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="arrivalDate">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_arrivalDate"
@@ -237,16 +267,18 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:hint="@string/newFlight_arrivalDate"
-                        android:tag="arrival"/>
+                        android:tag="arrivalDate"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_arrivalTime"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="arrivalTime">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_arrivalTime"
@@ -265,32 +297,38 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_arrivalTerminal"
                     android:layout_width="185dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="arrivalTerminal">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_arrivalTerminal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_arrivalTerm" />
+                        android:hint="@string/newFlight_arrivalTerm"
+                        android:tag="arrivalTerminal"/>
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addFlight_textInputLayout_arrivalGate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="8dp"
+                    android:tag="arrivalGate">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addFlight_textInputEditText_arrivalGate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/newFlight_arrivalGate" />
+                        android:hint="@string/newFlight_arrivalGate"
+                        android:tag="arrivalGate"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 

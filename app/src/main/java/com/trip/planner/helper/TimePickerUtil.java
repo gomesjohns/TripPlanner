@@ -16,14 +16,14 @@ public class TimePickerUtil {
     {}
     public void timePickerDialog(Context context, TextInputEditText textInputEditText)
     {
-        if(textInputEditText.getTag().toString().equals("checkIn"))
+        if(textInputEditText.getTag().toString().equals("checkInTime"))
         {
             mCurrentTime = Calendar.getInstance();
             mCurrentTime.set(Calendar.HOUR_OF_DAY, 15);
             mCurrentTime.set(Calendar.MINUTE, 00);
             textInputEditText.setText(timeFormat());
         }
-        else if(textInputEditText.getTag().toString().equals("checkOut"))
+        else if(textInputEditText.getTag().toString().equals("checkOutTime"))
         {
             mCurrentTime = Calendar.getInstance();
             mCurrentTime.set(Calendar.HOUR_OF_DAY, 11);
