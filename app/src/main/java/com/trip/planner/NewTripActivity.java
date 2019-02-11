@@ -86,7 +86,7 @@ public class NewTripActivity extends AppCompatActivity {
         datePickerUtil = new DatePickerUtil();
         closeKeyboardHelper = new CloseKeyboard();
         clearText = new ClearText();
-        clearButton = new ClearButton(buttonArrayList);
+        //clearButton = new ClearButton(buttonArrayList);
         new GooglePlaceApi(this, NewTripActivity.this, destinationAutocomplete,
                 buttonArrayList, AutocompleteFilter.TYPE_FILTER_REGIONS); //Init Google Place Api
     }
